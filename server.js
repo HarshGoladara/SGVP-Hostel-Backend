@@ -4,6 +4,7 @@ import db from './config/dbConnection.js';
 import routerAdmission from './routes/admissionRoutes.js';
 import routerStudent from './routes/studentRoutes.js';
 import routerUpdateData from './routes/updateDataRoutes.js';
+import routerGatepass from './routes/gatepassRoutes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use("/api/admission", routerAdmission);//known as middleware
 app.use("/api/student", routerStudent);//known as middleware
 app.use("/api/updateData", routerUpdateData);//known as middleware
+app.use("/api/gatepass", routerGatepass);
 
 function startServer() {
 
