@@ -1,18 +1,13 @@
-import mysql from 'mysql2'
-import { DB_HOST,DB_USER, DB_PASSWORD, DB_NAME,DB_PORT } from './envConfig';
+import postgres from 'pg'
+import { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } from './envConfig.js';
 
-const pool = mysql.createPool({
-    host: DB_HOST,  // Host from your MySQL server
-    user: DB_USER,                                        // MySQL username
-    password: DB_PASSWORD,                    // MySQL password
-    database: DB_NAME,                                   // Database name
-    port: 22466,                                             // Custom port
-    waitForConnections: true,                                // Handle multiple requests
-    connectionLimit: 10,                                     // Pool size
-    queueLimit: 0,                                           // No limit on queued requests
-    ssl: {                                                   // SSL configuration
-        rejectUnauthorized: false                             // Ensure secure connection
-    }
+const pool = new postgres.Pool({
+    host: DB_HOST,
+    user: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    port: DB_PORT || 5432,
+    max: 10
 });
 
-export default pool.promise();
+export default pool;

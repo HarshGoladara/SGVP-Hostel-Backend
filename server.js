@@ -23,8 +23,8 @@ function startServer() {
     // Example: Query the database when the server starts
     async function checkDBConnection() {
         try {
-            const [rows, fields] = await db.query('SELECT 2'); // Example query to check connection
-            console.log('Database connection successful:', rows);
+            const result = await db.connect();
+            console.log('=============🚀 Database connection successful 🚀 ====================');
         } catch (err) {
             console.error('Error connecting to the database:', err.message);
         }
