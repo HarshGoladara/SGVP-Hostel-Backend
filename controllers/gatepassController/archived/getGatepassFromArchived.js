@@ -9,7 +9,7 @@ export const getGatepassFromArchived = asyncHandler(async (req, res) => {
   try {
     const { gatepass_number, pin_number } = req.query;
 
-    let query = 'SELECT * FROM archivedGatepass';
+    let query = 'SELECT * FROM "archivedGatepass"';
     const params = [];
 
     if (gatepass_number) {

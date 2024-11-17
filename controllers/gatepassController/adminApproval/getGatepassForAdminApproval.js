@@ -9,7 +9,7 @@ export const getGatepassForAdminApproval = asyncHandler(async (req, res) => {
   try {
     const { gatepass_number, pin_number } = req.query;
 
-    let query = 'SELECT * FROM adminApprovalProcessGatepass';
+    let query = 'SELECT * FROM "adminApprovalProcessGatepass"';
     const params = [];
 
     if (gatepass_number) {

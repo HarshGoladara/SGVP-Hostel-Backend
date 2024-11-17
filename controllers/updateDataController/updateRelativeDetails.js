@@ -14,7 +14,7 @@ export const updateRelativeDetails = asyncHandler(async (req, res) => {
       relative_address,
     } = req.body;
 
-    let query = 'UPDATE relative SET ';
+    let query = 'UPDATE "relative" SET ';
     const params = [];
 
     if (relative_name) {

@@ -9,7 +9,7 @@ export const addSantReference = asyncHandler(async (req, res) => {
   try {
     const { pin_number, name_of_sant, sant_phone_number } = req.body;
     const query = `
-            INSERT INTO santReference (
+            INSERT INTO "santReference" (
                 pin_number, name_of_sant, sant_phone_number
             ) 
             VALUES (?, ?, ?)

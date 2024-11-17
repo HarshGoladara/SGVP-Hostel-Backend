@@ -19,7 +19,7 @@ export const addStudentEducation = asyncHandler(async (req, res) => {
     } = req.body;
 
     const query = `
-            INSERT INTO studentEducation (
+            INSERT INTO "studentEducation" (
                 pin_number, name_of_university, name_of_collage, course, branch, course_duration_years, current_year, current_sem
             ) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)

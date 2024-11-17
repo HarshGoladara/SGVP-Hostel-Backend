@@ -10,9 +10,10 @@ import { addGatepassForAdminApproval } from '../controllers/gatepassController/a
 import { getGatepassForAdminApproval } from '../controllers/gatepassController/adminApproval/getGatepassForAdminApproval.js';
 import { updateAdminApproval } from '../controllers/gatepassController/adminApproval/updateAdminApproval.js';
 import { deleteGatepassFromAdmin } from '../controllers/gatepassController/adminApproval/deleteGatepassFromAdmin.js';
-
+import { updateStatusToParentApprove } from '../controllers/gatepassController/parentApproval/updateStatusToParentApprove.js';
 import { addGatepassInArchived } from '../controllers/gatepassController/archived/addGatepassInArchived.js';
 import { getGatepassFromArchived } from '../controllers/gatepassController/archived/getGatepassFromArchived.js';
+import { updateStatusToParentDisapprove } from '../controllers/gatepassController/parentApproval/updateStatusToParentDisapprove.js';
 
 router
   .route('/addGatepassForParentApproval')
@@ -20,6 +21,10 @@ router
 router.route('/getGatepassForParentApproval').get(getGatepassForParentApproval);
 router.route('/updateParentApproval').put(updateParentApproval);
 router.route('/deleteGatepassFromParent').delete(deleteGatepassFromParent);
+router.route('/updateStatusToParentApprove').put(updateStatusToParentApprove);
+router
+  .route('/updateStatusToParentDisapprove')
+  .put(updateStatusToParentDisapprove);
 
 router.route('/addGatepassForAdminApproval').post(addGatepassForAdminApproval);
 router.route('/getGatepassForAdminApproval').get(getGatepassForAdminApproval);

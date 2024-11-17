@@ -9,7 +9,7 @@ export const updateRelativeReference = asyncHandler(async (req, res) => {
     const { pin_number } = req.body;
     const { full_name, relation, mobile_number } = req.body;
 
-    let query = 'UPDATE relativeReference SET ';
+    let query = 'UPDATE "relativeReference" SET ';
     const params = [];
 
     if (full_name) {

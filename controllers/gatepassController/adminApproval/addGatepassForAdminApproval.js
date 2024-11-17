@@ -19,7 +19,7 @@ export const addGatepassForAdminApproval = asyncHandler(async (req, res) => {
     } = req.body;
 
     const query = `
-            INSERT INTO adminApprovalProcessGatepass
+            INSERT INTO "adminApprovalProcessGatepass"
             (gatepass_number, pin_number, outgoing_timestamp, permission_upto_timestamp, reason, status, in_timestamp, remarks)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;

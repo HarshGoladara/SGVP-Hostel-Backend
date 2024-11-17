@@ -15,7 +15,7 @@ export const addRelativeDetails = asyncHandler(async (req, res) => {
       relative_address,
     } = req.body;
     const query = `
-            INSERT INTO relative (
+            INSERT INTO "relative" (
                 pin_number, relative_name, relation, relative_contact_number, relative_address
             ) 
             VALUES (?, ?, ?, ?, ?)
