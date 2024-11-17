@@ -22,7 +22,7 @@ export const updateStudentData = asyncHandler(async (req, res) => {
     } = req.body;
 
     // Dynamically build the query based on provided fields
-    let query = 'UPDATE studentData SET ';
+    let query = 'UPDATE "studentData" SET ';
     const params = [];
 
     if (student_full_name) {

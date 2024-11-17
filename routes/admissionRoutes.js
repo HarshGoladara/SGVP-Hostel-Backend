@@ -20,7 +20,6 @@ router.route('/addRelativeDetails').post(addRelativeDetails);
 router.route('/addSantReference').post(addSantReference);
 router.route('/addRelativeReference').post(addRelativeReference);
 router.route('/assignRoom').post(assignRoom);
-
 router.route('/addStudent').post(addStudent);
 
 // update and delete apis are yet to be implemented.

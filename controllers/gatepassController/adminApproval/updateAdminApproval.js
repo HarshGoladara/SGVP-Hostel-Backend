@@ -9,7 +9,7 @@ export const updateAdminApproval = asyncHandler(async (req, res) => {
     const { gatepass_number, status, remarks } = req.body;
 
     // Dynamically build the query based on provided fields
-    let query = 'UPDATE adminApprovalProcessGatepass SET ';
+    let query = 'UPDATE "adminApprovalProcessGatepass" SET ';
     const params = [];
 
     if (status) {

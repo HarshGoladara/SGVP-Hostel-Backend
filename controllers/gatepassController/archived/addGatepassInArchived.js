@@ -20,7 +20,7 @@ export const addGatepassInArchived = asyncHandler(async (req, res) => {
     } = req.body;
 
     const query = `
-            INSERT INTO archivedGatepass
+            INSERT INTO "archivedGatepass"
             (gatepass_number, pin_number, gatepass_created, outgoing_timestamp, permission_upto_timestamp, reason, status, in_timestamp, remarks)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;

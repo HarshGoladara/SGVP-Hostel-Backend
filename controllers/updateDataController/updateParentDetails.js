@@ -21,7 +21,7 @@ export const updateParentDetails = asyncHandler(async (req, res) => {
       approval_person_email,
     } = req.body;
 
-    let query = 'UPDATE parentDetail SET ';
+    let query = 'UPDATE "parentDetail" SET ';
     const params = [];
 
     if (father_name) {

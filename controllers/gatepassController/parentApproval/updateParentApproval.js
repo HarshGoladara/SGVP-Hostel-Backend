@@ -9,7 +9,7 @@ export const updateParentApproval = asyncHandler(async (req, res) => {
     const { gatepass_number, status, remarks } = req.body;
 
     // Dynamically build the query based on provided fields
-    let query = 'UPDATE parentApprovalProcessGatepass SET ';
+    let query = 'UPDATE "parentApprovalProcessGatepass" SET ';
     const params = [];
 
     if (status) {

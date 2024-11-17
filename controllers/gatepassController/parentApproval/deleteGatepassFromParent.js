@@ -9,7 +9,7 @@ export const deleteGatepassFromParent = asyncHandler(async (req, res) => {
   try {
     const { gatepass_number } = req.body;
     const query =
-      'DELETE FROM parentApprovalProcessGatepass WHERE gatepass_number = ?';
+      'DELETE FROM "parentApprovalProcessGatepass" WHERE gatepass_number = ?';
     db.query(query, [gatepass_number]);
   } catch (error) {
     console.log(error);

@@ -10,7 +10,7 @@ export const assignRoom = asyncHandler(async (req, res) => {
     const { pin_number, room_number, bed_number } = req.body;
 
     const query = `
-            INSERT INTO roomAllotment (
+            INSERT INTO "roomAllotment" (
                 pin_number, room_number, bed_number
             ) 
             VALUES (?, ?, ?)
