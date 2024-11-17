@@ -10,7 +10,7 @@ export const addRelativeReference = asyncHandler(async (req, res) => {
     const { pin_number, full_name, relation, mobile_number } = req.body;
 
     const query = `
-            INSERT INTO relativeReference (
+            INSERT INTO "relativeReference" (
                 pin_number, full_name, relation, mobile_number
             ) 
             VALUES (?, ?, ?, ?)

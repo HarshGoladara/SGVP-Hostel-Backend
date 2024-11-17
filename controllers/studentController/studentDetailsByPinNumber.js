@@ -53,19 +53,19 @@ export const studentDetailsByPinNumber = asyncHandler(async (req, res) => {
                 ra.room_number as room_number,
                 ra.bed_number as bed_number
             FROM 
-                studentData sd
+                "studentData" sd
             LEFT JOIN 
-                parentDetail pd ON sd.pin_number = pd.pin_number
+                "parentDetail" pd ON sd.pin_number = pd.pin_number
             LEFT JOIN 
-                relative r ON sd.pin_number = r.pin_number
+                "relative" r ON sd.pin_number = r.pin_number
             LEFT JOIN 
-                relativeReference rr ON sd.pin_number = rr.pin_number
+                "relativeReference" rr ON sd.pin_number = rr.pin_number
             LEFT JOIN 
-                santReference sr ON sd.pin_number = sr.pin_number
+                "santReference" sr ON sd.pin_number = sr.pin_number
             LEFT JOIN 
-                studentEducation se ON sd.pin_number = se.pin_number
+                "studentEducation" se ON sd.pin_number = se.pin_number
             LEFT JOIN 
-                roomAllotment ra ON sd.pin_number = ra.pin_number
+                "roomAllotment" ra ON sd.pin_number = ra.pin_number
             WHERE 
                 sd.pin_number = ?
         `;

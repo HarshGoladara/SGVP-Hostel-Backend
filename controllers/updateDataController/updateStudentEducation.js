@@ -18,7 +18,7 @@ export const updateStudentEducation = asyncHandler(async (req, res) => {
       current_sem,
     } = req.body;
 
-    let query = 'UPDATE studentEducation SET ';
+    let query = 'UPDATE "studentEducation" SET ';
     const params = [];
 
     if (name_of_university) {

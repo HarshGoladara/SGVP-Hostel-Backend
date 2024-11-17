@@ -22,7 +22,7 @@ export const addParentsDetails = asyncHandler(async (req, res) => {
       approval_person_email,
     } = req.body;
     const query = `
-            INSERT INTO parentDetail (
+            INSERT INTO "parentDetail" (
                 pin_number, father_name, father_contact_number, father_email, father_photo_url, 
                 mother_name, mother_contact_number, mother_photo_url, approval_person_name, approval_person_contact, approval_person_relation, approval_person_email
             ) 

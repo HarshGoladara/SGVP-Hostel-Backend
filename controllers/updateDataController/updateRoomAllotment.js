@@ -9,7 +9,7 @@ export const updateRoomAllotment = asyncHandler(async (req, res) => {
     const { pin_number } = req.body;
     const { room_number, bed_number } = req.body;
 
-    let query = 'UPDATE roomAllotment SET ';
+    let query = 'UPDATE "roomAllotment" SET ';
     const params = [];
 
     if (room_number) {

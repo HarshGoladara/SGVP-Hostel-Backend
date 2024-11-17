@@ -9,7 +9,7 @@ export const updateSantReference = asyncHandler(async (req, res) => {
     const { pin_number } = req.body;
     const { name_of_sant, sant_phone_number } = req.body;
 
-    let query = 'UPDATE santReference SET ';
+    let query = 'UPDATE "santReference" SET ';
     const params = [];
 
     if (name_of_sant) {

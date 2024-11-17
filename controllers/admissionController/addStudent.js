@@ -23,7 +23,7 @@ export const addStudent = asyncHandler(async (req, res) => {
     } = req.body;
 
     const queryStudentData = `
-            INSERT INTO studentData (
+            INSERT INTO "studentData" (
                 pin_number, student_full_name, dob, nationality, religion, address, city, postal_pin_number, 
                 student_contact_number, student_email, student_qualification, student_photo_url
             ) 
