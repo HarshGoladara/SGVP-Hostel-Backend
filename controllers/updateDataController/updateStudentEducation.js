@@ -20,38 +20,46 @@ export const updateStudentEducation = asyncHandler(async (req, res) => {
 
     let query = 'UPDATE "studentEducation" SET ';
     const params = [];
+    let paramIndex = 1;
 
     if (name_of_university) {
-      query += 'name_of_university = ?, ';
+      query += `name_of_university = $${paramIndex}, `;
       params.push(name_of_university);
+      paramIndex++;
     }
     if (name_of_collage) {
-      query += 'name_of_collage = ?, ';
+      query += `name_of_collage = $${paramIndex}, `;
       params.push(name_of_collage);
+      paramIndex++;
     }
     if (course) {
-      query += 'course = ?, ';
+      query += `course = $${paramIndex}, `;
       params.push(course);
+      paramIndex++;
     }
     if (branch) {
-      query += 'branch = ?, ';
+      query += `branch = $${paramIndex}, `;
       params.push(branch);
+      paramIndex++;
     }
     if (course_duration_years) {
-      query += 'course_duration_years = ?, ';
+      query += `course_duration_years = $${paramIndex}, `;
       params.push(course_duration_years);
+      paramIndex++;
     }
     if (current_year) {
-      query += 'current_year = ?, ';
+      query += `current_year = $${paramIndex}, `;
       params.push(current_year);
+      paramIndex++;
     }
     if (current_sem) {
-      query += 'current_sem = ?, ';
+      query += `current_sem = $${paramIndex}, `;
       params.push(current_sem);
+      paramIndex++;
     }
 
     query = query.slice(0, -2);
-    query += ' WHERE pin_number = ?';
+    query += ` WHERE pin_number = $${paramIndex}`;
     params.push(pin_number);
 
     if (params.length > 1) {

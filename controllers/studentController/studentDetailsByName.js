@@ -1,12 +1,12 @@
 import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 
-//@decription Fetch StudentInfo by pin number
+//@decription Fetch StudentInfo by name
 //@route GET /api/admission
 //@access public
 
-export const studentDetailsByPinNumber = asyncHandler(async (req, res) => {
-  const { pin_number } = req.query;
+export const studentDetailsByName = asyncHandler(async (req, res) => {
+  const { student_full_name } = req.query;
 
   try {
     const query = `
@@ -68,10 +68,10 @@ export const studentDetailsByPinNumber = asyncHandler(async (req, res) => {
             LEFT JOIN 
                 "roomAllotment" ra ON sd.pin_number = ra.pin_number
             WHERE 
-                sd.pin_number = $1
+                sd.student_full_name ILIKE $1
         `;
 
-    const results = await db.query(query, [pin_number]);
+    const results = await db.query(query, [`%${student_full_name}%`]);
     res.status(200).json(results);
   } catch (err) {
     console.error(err);

@@ -18,6 +18,7 @@ export const studentDetails = asyncHandler(async (req, res) => {
           sd.dob,
           sd.nationality,
           sd.religion,
+          sd.caste,
           sd.address,
           sd.city,
           sd.postal_pin_number,

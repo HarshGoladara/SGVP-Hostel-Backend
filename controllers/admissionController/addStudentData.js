@@ -13,6 +13,7 @@ export const addStudentData = asyncHandler(async (req, res) => {
       dob,
       nationality,
       religion,
+      caste,
       address,
       city,
       postal_pin_number,
@@ -24,10 +25,10 @@ export const addStudentData = asyncHandler(async (req, res) => {
 
     const query = `
             INSERT INTO "studentData" (
-                pin_number, student_full_name, dob, nationality, religion, address, city, postal_pin_number, 
+                pin_number, student_full_name, dob, nationality, religion, caste, address, city, postal_pin_number, 
                 student_contact_number, student_email, student_qualification, student_photo_url
             ) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
         `;
 
     await db.query(query, [
@@ -36,6 +37,7 @@ export const addStudentData = asyncHandler(async (req, res) => {
       dob,
       nationality,
       religion,
+      caste,
       address,
       city,
       postal_pin_number,

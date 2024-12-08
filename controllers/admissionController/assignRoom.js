@@ -7,16 +7,16 @@ import db from '../../config/dbConnection.js';
 
 export const assignRoom = asyncHandler(async (req, res) => {
   try {
-    const { pin_number, room_number, bed_number } = req.body;
+    const { pin_number, room_number, bed_number, category } = req.body;
 
     const query = `
             INSERT INTO "roomAllotment" (
-                pin_number, room_number, bed_number
+                pin_number, room_number, bed_number, category
             ) 
-            VALUES (?, ?, ?)
+            VALUES ($1, $2, $3, $4)
         `;
 
-    await db.query(query, [pin_number, room_number, bed_number]);
+    await db.query(query, [pin_number, room_number, bed_number, category]);
 
     res.status(201).json({
       message: 'Room Assigned successfully',

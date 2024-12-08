@@ -9,10 +9,14 @@ export const addStudent = asyncHandler(async (req, res) => {
   try {
     const {
       pin_number,
-      student_full_name,
+      // student_full_name,
+      student_surname,
+      student_name,
+      student_father_name,
       dob,
       nationality,
       religion,
+      caste,
       address,
       city,
       postal_pin_number,
@@ -22,12 +26,15 @@ export const addStudent = asyncHandler(async (req, res) => {
       student_photo_url,
     } = req.body;
 
+    const student_full_name =
+      student_surname + ' ' + student_name + ' ' + student_father_name;
+
     const queryStudentData = `
             INSERT INTO "studentData" (
-                pin_number, student_full_name, dob, nationality, religion, address, city, postal_pin_number, 
+                pin_number, student_full_name, dob, nationality, religion, caste, address, city, postal_pin_number, 
                 student_contact_number, student_email, student_qualification, student_photo_url
             ) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
         `;
 
     await db.query(queryStudentData, [
@@ -36,6 +43,7 @@ export const addStudent = asyncHandler(async (req, res) => {
       dob,
       nationality,
       religion,
+      caste,
       address,
       city,
       postal_pin_number,
@@ -56,10 +64,10 @@ export const addStudent = asyncHandler(async (req, res) => {
     } = req.body;
 
     const queryStudentEducation = `
-            INSERT INTO studentEducation (
+            INSERT INTO "studentEducation" (
                 pin_number, name_of_university, name_of_collage, course, branch, course_duration_years, current_year, current_sem
             ) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         `;
 
     await db.query(queryStudentEducation, [
@@ -88,11 +96,11 @@ export const addStudent = asyncHandler(async (req, res) => {
     } = req.body;
 
     const queryParentDetail = `
-            INSERT INTO parentDetail (
+            INSERT INTO "parentDetail" (
                 pin_number, father_name, father_contact_number, father_email, father_photo_url, 
                 mother_name, mother_contact_number, mother_photo_url, approval_person_name, approval_person_contact, approval_person_relation, approval_person_email
             ) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         `;
 
     await db.query(queryParentDetail, [
@@ -118,10 +126,10 @@ export const addStudent = asyncHandler(async (req, res) => {
     } = req.body;
 
     const queryRelative = `
-            INSERT INTO relative (
+            INSERT INTO "relative" (
                 pin_number, relative_name, relation, relative_contact_number, relative_address
             ) 
-            VALUES (?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5)
         `;
 
     await db.query(queryRelative, [
@@ -135,10 +143,10 @@ export const addStudent = asyncHandler(async (req, res) => {
     const { name_of_sant, sant_phone_number } = req.body;
 
     const querySantReference = `
-            INSERT INTO santReference (
+            INSERT INTO "santReference" (
                 pin_number, name_of_sant, sant_phone_number
             ) 
-            VALUES (?, ?, ?)
+            VALUES ($1, $2, $3)
         `;
 
     await db.query(querySantReference, [
@@ -154,10 +162,10 @@ export const addStudent = asyncHandler(async (req, res) => {
     } = req.body;
 
     const queryRelativeReference = `
-            INSERT INTO relativeReference (
+            INSERT INTO "relativeReference" (
                 pin_number, full_name, relation, mobile_number
             ) 
-            VALUES (?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4)
         `;
 
     await db.query(queryRelativeReference, [

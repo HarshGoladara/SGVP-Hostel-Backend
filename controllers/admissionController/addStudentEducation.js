@@ -22,7 +22,7 @@ export const addStudentEducation = asyncHandler(async (req, res) => {
             INSERT INTO "studentEducation" (
                 pin_number, name_of_university, name_of_collage, course, branch, course_duration_years, current_year, current_sem
             ) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         `;
 
     await db.query(query, [
