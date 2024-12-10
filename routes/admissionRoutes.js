@@ -10,6 +10,8 @@ import { addRelativeReference } from '../controllers/admissionController/addRela
 import { assignRoom } from '../controllers/admissionController/assignRoom.js';
 import { addStudent } from '../controllers/admissionController/addStudent.js';
 import { tempAddStudentDetails } from '../controllers/admissionController/tempAddStudentDetails.js';
+import { deleteStudentFromTemp } from '../controllers/admissionController/deleteStudentFromTemp.js';
+import { getTempStudentDetails } from '../controllers/admissionController/getTempStudentDetails.js';
 
 // router.route("/studentDetails").get(studentDetails);//for fetching all the student info from database
 // router.route("/studentDetailsByPinNumber").get(studentDetailsByPinNumber);//for fetching all the student info from database
@@ -23,6 +25,8 @@ router.route('/addRelativeReference').post(addRelativeReference);
 router.route('/assignRoom').post(assignRoom);
 router.route('/addStudent').post(addStudent);
 router.route('/tempAddStudentDetails').post(tempAddStudentDetails);
+router.route('/getTempStudentDetails').get(getTempStudentDetails);
+router.route('/deleteStudentFromTemp').delete(deleteStudentFromTemp);
 
 // update and delete apis are yet to be implemented.
 export default router;

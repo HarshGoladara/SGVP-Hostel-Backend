@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 
 //@decription Fetch StudentInfo by pin number
-//@route GET /api/admission
+//@route GET /api/student
 //@access public
 
 export const studentDetailsByPinNumber = asyncHandler(async (req, res) => {

@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import db from '../../../config/dbConnection.js';
 
 // @description Update gatepass by parent
-// @route PUT api/gatepass/updateParentApproval
+// @route PUT api/gatepass/updateStatusToParentDisapprove
 // @access public
 export const updateStatusToParentDisapprove = asyncHandler(async (req, res) => {
   try {

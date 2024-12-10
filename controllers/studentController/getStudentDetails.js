@@ -1,17 +1,20 @@
 import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 
-//@description Fetch Paginated StudentInfo
-//@route GET /api/student/studentDetails?page=<page_number>&limit=<limit>
-//@access public
+// @description Fetch Student Info (Paginated or by Name or Pin Number)
+// @route GET /api/student/getStudentDetails?page=<page_number>&limit=<limit>&name=<student_full_name>&pin_number=<pin_number>
+// @access public
+export const getStudentDetails = asyncHandler(async (req, res) => {
+  const { page, limit, student_full_name, pin_number } = req.query;
 
-export const studentDetails = asyncHandler(async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
-    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page if not provided
-    const offset = (page - 1) * limit;
+    // Pagination variables
+    const currentPage = parseInt(page) || 1;
+    const pageLimit = parseInt(limit) || 10;
+    const offset = (currentPage - 1) * pageLimit;
 
-    const query = `
+    // Base query for fetching student data
+    let query = `
       SELECT 
           sd.pin_number,
           sd.student_full_name,
@@ -69,24 +72,46 @@ export const studentDetails = asyncHandler(async (req, res) => {
           "studentEducation" se ON sd.pin_number = se.pin_number
       LEFT JOIN 
           "roomAllotment" ra ON sd.pin_number = ra.pin_number
-      LIMIT $1 OFFSET $2
     `;
 
-    const results = await db.query(query, [limit, offset]);
+    // Apply filters if query parameters are provided
+    const queryParams = [];
+    let paramIndex = 1;
+    if (student_full_name) {
+      query += ` WHERE sd.student_full_name ILIKE $${paramIndex}`;
+      queryParams.push(`%${student_full_name}%`);
+      paramIndex++;
+    } else if (pin_number) {
+      query += ` WHERE sd.pin_number = $${paramIndex}`;
+      queryParams.push(pin_number);
+      paramIndex++;
+    }
+
+    // Pagination logic
+    query += ` LIMIT $${paramIndex}`;
+    queryParams.push(pageLimit);
+    paramIndex++;
+
+    query += ` OFFSET $${paramIndex}`;
+    queryParams.push(offset);
+    paramIndex++;
+
+    // Execute the query
+    const results = await db.query(query, queryParams);
 
     // Get the total count of students for pagination metadata
     const countQuery = `SELECT COUNT(*) FROM "studentData"`;
     const countResult = await db.query(countQuery);
     const totalItems = parseInt(countResult.rows[0].count);
-    const totalPages = Math.ceil(totalItems / limit);
+    const totalPages = Math.ceil(totalItems / pageLimit);
 
     res.status(200).json({
       data: results.rows,
       pagination: {
         totalItems,
         totalPages,
-        currentPage: page,
-        pageSize: limit,
+        currentPage,
+        pageSize: pageLimit,
       },
     });
   } catch (err) {
