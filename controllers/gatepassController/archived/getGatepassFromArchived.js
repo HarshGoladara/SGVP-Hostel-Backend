@@ -7,16 +7,13 @@ import db from '../../../config/dbConnection.js';
 
 export const getGatepassFromArchived = asyncHandler(async (req, res) => {
   try {
-    const { gatepass_number, pin_number } = req.query;
+    const { pin_number } = req.query;
 
     let query = 'SELECT * FROM "archivedGatepass"';
     const params = [];
 
-    if (gatepass_number) {
-      query += ' WHERE gatepass_number = ?';
-      params.push(gatepass_number);
-    } else if (pin_number) {
-      query += ' WHERE pin_number = ?';
+    if (pin_number) {
+      query += ' WHERE pin_number = $1';
       params.push(pin_number);
     }
 

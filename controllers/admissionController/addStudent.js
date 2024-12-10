@@ -7,12 +7,10 @@ import db from '../../config/dbConnection.js';
 
 export const addStudent = asyncHandler(async (req, res) => {
   try {
+    console.log(req.body);
     const {
       pin_number,
-      // student_full_name,
-      student_surname,
-      student_name,
-      student_father_name,
+      student_full_name,
       dob,
       nationality,
       religion,
@@ -26,8 +24,10 @@ export const addStudent = asyncHandler(async (req, res) => {
       student_photo_url,
     } = req.body;
 
-    const student_full_name =
-      student_surname + ' ' + student_name + ' ' + student_father_name;
+    // const student_full_name =
+    //   student_surname + " " + student_name + " " + student_father_name;
+
+    // console.log("student full name",student_full_name);
 
     const queryStudentData = `
             INSERT INTO "studentData" (
@@ -120,7 +120,7 @@ export const addStudent = asyncHandler(async (req, res) => {
 
     const {
       relative_name,
-      relation,
+      relative_relation,
       relative_contact_number,
       relative_address,
     } = req.body;
@@ -135,7 +135,7 @@ export const addStudent = asyncHandler(async (req, res) => {
     await db.query(queryRelative, [
       pin_number,
       relative_name,
-      relation,
+      relative_relation,
       relative_contact_number,
       relative_address,
     ]);

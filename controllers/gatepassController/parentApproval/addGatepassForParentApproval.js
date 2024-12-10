@@ -26,7 +26,7 @@ export const addGatepassForParentApproval = asyncHandler(async (req, res) => {
     console.log();
 
     const query = `
-    INSERT INTO "parentApprovalProcessGatepass" 
+    INSERT INTO "approvalGatepass" 
     (pin_number, outgoing_timestamp, permission_upto_timestamp, reason) 
     VALUES ($1, TO_TIMESTAMP($2, 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP($3, 'YYYY-MM-DD HH24:MI:SS'), $4)
 `;

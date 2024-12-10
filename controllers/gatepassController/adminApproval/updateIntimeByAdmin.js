@@ -2,25 +2,20 @@ import asyncHandler from 'express-async-handler';
 import db from '../../../config/dbConnection.js';
 
 // @description Update gatepass by admin
-// @route PUT api/gatepass/updateAdminApproval
+// @route PUT api/gatepass/updateIntimeByAdmin
 // @access public
-export const updateAdminApproval = asyncHandler(async (req, res) => {
+export const updateIntimeByAdmin = asyncHandler(async (req, res) => {
   try {
-    const { gatepass_number, admin_approval_status, remarks } = req.body;
+    const { gatepass_number, in_timestamp } = req.body;
 
     // Dynamically build the query based on provided fields
     let query = 'UPDATE "approvalGatepass" SET ';
     const params = [];
     let paramIndex = 1;
 
-    if (admin_approval_status) {
-      query += `admin_approval_status = $${paramIndex}, `;
-      params.push(admin_approval_status);
-      paramIndex++;
-    }
-    if (remarks) {
-      query += `remarks = $${paramIndex}, `;
-      params.push(remarks);
+    if (in_timestamp) {
+      query += `in_timestamp = $${paramIndex}, `;
+      params.push(in_timestamp);
       paramIndex++;
     }
 

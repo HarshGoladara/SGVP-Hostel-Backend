@@ -10,7 +10,7 @@ export const getGatepassForParentApproval = asyncHandler(async (req, res) => {
     const { gatepass_number, pin_number } = req.query;
     console.log(req.query);
 
-    let query = 'SELECT * FROM "parentApprovalProcessGatepass"';
+    let query = 'SELECT * FROM "approvalGatepass"';
     const params = [];
 
     if (gatepass_number) {

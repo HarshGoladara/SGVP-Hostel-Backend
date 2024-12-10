@@ -14,16 +14,17 @@ export const addGatepassInArchived = asyncHandler(async (req, res) => {
       outgoing_timestamp,
       permission_upto_timestamp,
       reason,
-      status,
+      parent_approval_status,
+      admin_approval_status,
       in_timestamp,
       remarks,
     } = req.body;
 
     const query = `
-            INSERT INTO "archivedGatepass"
-            (gatepass_number, pin_number, gatepass_created, outgoing_timestamp, permission_upto_timestamp, reason, status, in_timestamp, remarks)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
+      INSERT INTO "archivedGatepass"
+      (gatepass_number, pin_number, gatepass_created, outgoing_timestamp, permission_upto_timestamp, reason, parent_approval_status, admin_approval_status, in_timestamp, remarks)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    `;
 
     db.query(query, [
       gatepass_number,
@@ -32,7 +33,8 @@ export const addGatepassInArchived = asyncHandler(async (req, res) => {
       outgoing_timestamp,
       permission_upto_timestamp,
       reason,
-      status,
+      parent_approval_status,
+      admin_approval_status,
       in_timestamp || null,
       remarks || ' ',
     ]);
