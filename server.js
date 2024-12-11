@@ -5,6 +5,7 @@ import routerAdmission from './routes/admissionRoutes.js';
 import routerStudent from './routes/studentRoutes.js';
 import routerUpdateData from './routes/updateDataRoutes.js';
 import routerGatepass from './routes/gatepassRoutes.js';
+import routerCredentials from './routes/credentialRoutes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use('/api/admission', routerAdmission); //known as middleware
 app.use('/api/student', routerStudent); //known as middleware
 app.use('/api/updateData', routerUpdateData); //known as middleware
 app.use('/api/gatepass', routerGatepass);
+app.use('/api/credential', routerCredentials);
 
 function startServer() {
   // Example: Query the database when the server starts
