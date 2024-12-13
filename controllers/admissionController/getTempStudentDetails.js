@@ -2,10 +2,10 @@ import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 
 // @description Fetch Paginated temporary student Details
-// @route GET /api/getTempStudentDetails?page=<page_number>&limit=<limit>
+// @route GET /api/admission/getTempStudentDetails?page=<page_number>&limit=<limit>
 // @access Public
 export const getTempStudentDetails = asyncHandler(async (req, res) => {
-  const { page, limit, student_full_name, pin_number } = req.query;
+  const { page, limit, student_full_name, entry_number } = req.query;
 
   try {
     // Pagination variables
@@ -13,7 +13,7 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
     const pageLimit = parseInt(limit) || 10;
     const offset = (currentPage - 1) * pageLimit;
 
-    const query = `
+    let query = `
       SELECT * FROM "tempStudentDetails"
     `;
 
@@ -24,9 +24,9 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
       query += ` WHERE student_full_name ILIKE $${paramIndex}`;
       queryParams.push(`%${student_full_name}%`);
       paramIndex++;
-    } else if (pin_number) {
-      query += ` WHERE pin_number = $${paramIndex}`;
-      queryParams.push(pin_number);
+    } else if (entry_number) {
+      query += ` WHERE entry_number = $${paramIndex}`;
+      queryParams.push(entry_number);
       paramIndex++;
     }
 
@@ -43,7 +43,7 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
     const results = await db.query(query, queryParams);
 
     // Get the total count of tempStudentDetails for pagination metadata
-    const countQuery = `SELECT COUNT(*) FROM tempStudentDetails`;
+    const countQuery = `SELECT COUNT(*) FROM "tempStudentDetails"`;
     const countResult = await db.query(countQuery);
     const totalItems = parseInt(countResult.rows[0].count);
     const totalPages = Math.ceil(totalItems / limit);

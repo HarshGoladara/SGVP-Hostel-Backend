@@ -55,9 +55,43 @@ export const otpVerification = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: 'Role not found for this user' });
     }
 
+    const userRole = roleResult.rows[0];
+
+    // console.log(userRole);
+
+    // Fetch pin_number based on the role
+    let pinQuery = '';
+    if (userRole.role_name === 'student') {
+      pinQuery = `
+        SELECT pin_number
+        FROM "studentData"
+        WHERE student_contact_number = $1
+      `;
+    } else if (userRole.role_name === 'parent') {
+      pinQuery = `
+        SELECT pin_number
+        FROM "parentDetail"
+        WHERE father_contact_number = $1 OR mother_contact_number = $1 OR approval_person_contact = $1
+      `;
+    }
+
+    let pinResult = { rows: [] };
+    if (pinQuery) {
+      pinResult = await db.query(pinQuery, [mobile_number]);
+    }
+
+    // Add pin_number to the response if found
+    const pinNumber =
+      pinResult.rows.length > 0 ? pinResult.rows[0].pin_number : null;
+
+    // console.log(pinNumber);
+
     res.status(200).json({
       message: 'Login successful',
-      data: roleResult.rows[0],
+      data: {
+        ...userRole,
+        pin_number: pinNumber, // Include the pin number in the response
+      },
     });
   } catch (error) {
     console.error(error);

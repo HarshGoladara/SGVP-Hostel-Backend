@@ -13,7 +13,7 @@ export const getAlumni = asyncHandler(async (req, res) => {
     const pageLimit = parseInt(limit) || 10;
     const offset = (currentPage - 1) * pageLimit;
 
-    const query = `
+    let query = `
       SELECT * FROM "alumni"
     `;
 

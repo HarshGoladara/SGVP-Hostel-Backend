@@ -1,12 +1,12 @@
 import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 import otpGenerator from 'otp-generator';
-import {
-  TWILIO_ACCOUNT_SID,
-  TWILIO_AUTH_TOKEN,
-  TWILIO_PHONE_NUMBER,
-} from '../../config/envConfig.js';
-import twilio from 'twilio';
+// import {
+//   TWILIO_ACCOUNT_SID,
+//   TWILIO_AUTH_TOKEN,
+//   TWILIO_PHONE_NUMBER,
+// } from '../../config/envConfig.js';
+// import twilio from 'twilio';
 
 // @description Login and send OTP
 // @route POST /api/auth/login
@@ -14,6 +14,8 @@ import twilio from 'twilio';
 export const login = asyncHandler(async (req, res) => {
   try {
     const { mobile_number, phone } = req.body;
+
+    console.log(phone);
 
     if (!mobile_number) {
       return res.status(400).json({ message: 'Mobile number is required' });
@@ -36,21 +38,25 @@ export const login = asyncHandler(async (req, res) => {
       `;
     await db.query(query, [mobile_number, otp]);
 
-    // Twilio credentials (use environment variables for security)
-    const accountSid = TWILIO_ACCOUNT_SID; // Your Twilio Account SID
-    const authToken = TWILIO_AUTH_TOKEN; // Your Twilio Auth Token
-    const twilioPhoneNumber = TWILIO_PHONE_NUMBER; // Your Twilio Phone Number
+    // ----------------------sms otp sending logic start-----------------------------------------
 
-    const client = twilio(accountSid, authToken);
+    // // Twilio credentials (use environment variables for security)
+    // const accountSid = TWILIO_ACCOUNT_SID; // Your Twilio Account SID
+    // const authToken = TWILIO_AUTH_TOKEN; // Your Twilio Auth Token
+    // const twilioPhoneNumber = TWILIO_PHONE_NUMBER; // Your Twilio Phone Number
 
-    // Send OTP via SMS using Twilio
-    const message = await client.messages.create({
-      body: `SGVP sent you an OTP, Your OTP is: ${otp}. It is valid for 5 minutes.`,
-      from: twilioPhoneNumber,
-      to: `+${phone}${mobile_number}`, // Ensure mobile_number includes the country code
-    });
+    // const client = twilio(accountSid, authToken);
 
-    console.log(message);
+    // // Send OTP via SMS using Twilio
+    // const message = await client.messages.create({
+    //   body: `SGVP sent you an OTP, Your OTP is: ${otp}. It is valid for 5 minutes.`,
+    //   from: twilioPhoneNumber,
+    //   to: `+${phone}${mobile_number}`, // Ensure mobile_number includes the country code
+    // });
+
+    // console.log(message);
+
+    // ----------------------sms otp sending logic end-----------------------------------------
 
     // Simulate sending OTP (Replace this with actual SMS sending logic)
     console.log(`OTP for ${mobile_number}: ${otp}`);
