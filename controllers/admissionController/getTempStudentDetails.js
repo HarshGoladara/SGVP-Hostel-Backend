@@ -5,7 +5,8 @@ import db from '../../config/dbConnection.js';
 // @route GET /api/admission/getTempStudentDetails?page=<page_number>&limit=<limit>
 // @access Public
 export const getTempStudentDetails = asyncHandler(async (req, res) => {
-  const { page, limit, student_full_name, entry_number } = req.query;
+  const { page, limit, student_full_name, entry_number, admission_status } =
+    req.query;
 
   try {
     // Pagination variables
@@ -14,19 +15,25 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
     const offset = (currentPage - 1) * pageLimit;
 
     let query = `
-      SELECT * FROM "tempStudentDetails"
+      SELECT * FROM "tempStudentDetails" WHERE 1 = 1
     `;
 
     // Apply filters if query parameters are provided
     const queryParams = [];
     let paramIndex = 1;
     if (student_full_name) {
-      query += ` WHERE student_full_name ILIKE $${paramIndex}`;
+      query += ` AND student_full_name ILIKE $${paramIndex}`;
       queryParams.push(`%${student_full_name}%`);
       paramIndex++;
     } else if (entry_number) {
-      query += ` WHERE entry_number = $${paramIndex}`;
+      query += ` AND entry_number = $${paramIndex}`;
       queryParams.push(entry_number);
+      paramIndex++;
+    }
+
+    if (admission_status) {
+      query += ` AND admission_status = $${paramIndex}`;
+      queryParams.push(admission_status);
       paramIndex++;
     }
 
@@ -41,6 +48,7 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
 
     // Execute the query
     const results = await db.query(query, queryParams);
+    console.log(results);
 
     // Get the total count of tempStudentDetails for pagination metadata
     const countQuery = `SELECT COUNT(*) FROM "tempStudentDetails"`;

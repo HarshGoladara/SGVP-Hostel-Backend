@@ -7,20 +7,65 @@ import db from '../../../config/dbConnection.js';
 
 export const getGatepassFromArchived = asyncHandler(async (req, res) => {
   try {
-    const { pin_number } = req.query;
+    const { page, limit, query_number } = req.query;
 
-    let query = 'SELECT * FROM "archivedGatepass"';
+    // Pagination variables
+    const currentPage = parseInt(page) || 1;
+    const pageLimit = parseInt(limit) || 10;
+    const offset = (currentPage - 1) * pageLimit;
+
+    let query = `
+      SELECT 
+        ag.*, 
+        sd.student_full_name 
+      FROM "archivedGatepass" AS ag 
+      JOIN "studentData" AS sd 
+      ON ag.pin_number = sd.pin_number 
+    `;
     const params = [];
+    let paramIndex = 1;
 
-    if (pin_number) {
-      query += ' WHERE pin_number = $1';
-      params.push(pin_number);
+    // query += `WHERE parent_approval_status = 'approved' AND admin_approval_status = 'pending'`;
+
+    if (query_number) {
+      query += ` WHERE (ag.gatepass_number = $${paramIndex} OR ag.pin_number = $${paramIndex})`;
+      params.push(query_number);
+      paramIndex++;
     }
 
-    db.query(query, params);
+    query += ` ORDER BY ag.gatepass_number DESC`;
 
-    res.status(201).json({
-      message: 'Gatepass fetched from Archived successfully',
+    // Pagination logic
+    query += ` LIMIT $${paramIndex}`;
+    params.push(pageLimit);
+    paramIndex++;
+
+    query += ` OFFSET $${paramIndex}`;
+    params.push(offset);
+    paramIndex++;
+
+    const results = await db.query(query, params);
+    // console.log(results);
+
+    // Get the total count of alumni for pagination metadata
+    const countQuery = `SELECT COUNT(*) FROM "archivedGatepass"`;
+    const countResult = await db.query(countQuery);
+    const totalItems = parseInt(countResult.rows[0].count);
+    const totalPages = Math.ceil(totalItems / limit);
+
+    // res.status(201).json({
+    //   message: 'Gatepass fetched from Admin successfully',
+    //   data: results.rows, // Return the fetched data
+    // });
+    res.status(200).json({
+      message: 'Gatepass fetched from Admin successfully',
+      data: results.rows,
+      pagination: {
+        totalItems,
+        totalPages,
+        currentPage: page,
+        pageSize: limit,
+      },
     });
   } catch (error) {
     console.log(error);

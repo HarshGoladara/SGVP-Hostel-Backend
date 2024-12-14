@@ -10,8 +10,9 @@ export const studentDetails = asyncHandler(async (req, res) => {
     const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
     const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page if not provided
     const offset = (page - 1) * limit;
+    const category = req.query.category;
 
-    const query = `
+    let query = `
       SELECT 
           sd.pin_number,
           sd.student_full_name,
@@ -54,7 +55,8 @@ export const studentDetails = asyncHandler(async (req, res) => {
           rr.relation AS reference_relative_relation,
           rr.mobile_number AS reference_relative_mobile,
           ra.room_number as room_number,
-          ra.bed_number as bed_number
+          ra.bed_number as bed_number,
+          ra.category as category
       FROM 
           "studentData" sd
       LEFT JOIN 
@@ -69,10 +71,26 @@ export const studentDetails = asyncHandler(async (req, res) => {
           "studentEducation" se ON sd.pin_number = se.pin_number
       LEFT JOIN 
           "roomAllotment" ra ON sd.pin_number = ra.pin_number
-      LIMIT $1 OFFSET $2
     `;
+    let paramIndex = 1;
+    const params = [];
 
-    const results = await db.query(query, [limit, offset]);
+    if (category) {
+      query += ` WHERE ra.category = $${paramIndex}`;
+      params.push(category);
+      paramIndex++;
+    }
+
+    // Pagination logic
+    query += ` LIMIT $${paramIndex}`;
+    params.push(limit);
+    paramIndex++;
+
+    query += ` OFFSET $${paramIndex}`;
+    params.push(offset);
+    paramIndex++;
+
+    const results = await db.query(query, params);
 
     // Get the total count of students for pagination metadata
     const countQuery = `SELECT COUNT(*) FROM "studentData"`;
