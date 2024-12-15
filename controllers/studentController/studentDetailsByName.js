@@ -68,7 +68,7 @@ export const studentDetailsByName = asyncHandler(async (req, res) => {
             LEFT JOIN 
                 "roomAllotment" ra ON sd.pin_number = ra.pin_number
             WHERE 
-                sd.student_full_name ILIKE $1
+                sd.student_full_name ILIKE $1 AND sd.is_alumni = false
         `;
 
     const results = await db.query(query, [`%${student_full_name}%`]);

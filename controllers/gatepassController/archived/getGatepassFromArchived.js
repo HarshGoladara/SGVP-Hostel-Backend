@@ -7,7 +7,8 @@ import db from '../../../config/dbConnection.js';
 
 export const getGatepassFromArchived = asyncHandler(async (req, res) => {
   try {
-    const { page, limit, query_number } = req.query;
+    const { page, limit, query_number, startDate, endDate, student_full_name } =
+      req.query;
 
     // Pagination variables
     const currentPage = parseInt(page) || 1;
@@ -21,6 +22,7 @@ export const getGatepassFromArchived = asyncHandler(async (req, res) => {
       FROM "archivedGatepass" AS ag 
       JOIN "studentData" AS sd 
       ON ag.pin_number = sd.pin_number 
+      WHERE 1 = 1
     `;
     const params = [];
     let paramIndex = 1;
@@ -28,8 +30,23 @@ export const getGatepassFromArchived = asyncHandler(async (req, res) => {
     // query += `WHERE parent_approval_status = 'approved' AND admin_approval_status = 'pending'`;
 
     if (query_number) {
-      query += ` WHERE (ag.gatepass_number = $${paramIndex} OR ag.pin_number = $${paramIndex})`;
+      query += ` AND (ag.gatepass_number = $${paramIndex} OR ag.pin_number = $${paramIndex})`;
       params.push(query_number);
+      paramIndex++;
+    }
+
+    if (startDate && endDate && startDate <= endDate) {
+      query += ` AND ag.outgoing_timestamp >= $${paramIndex}`;
+      params.push(startDate);
+      paramIndex++;
+      query += ` AND ag.permission_upto_timestamp <= $${paramIndex}`;
+      params.push(endDate);
+      paramIndex++;
+    }
+
+    if (student_full_name) {
+      query += ` AND sd.student_full_name ILIKE $${paramIndex}`;
+      params.push(`%${student_full_name}%`);
       paramIndex++;
     }
 

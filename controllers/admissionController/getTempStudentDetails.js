@@ -48,7 +48,7 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
 
     // Execute the query
     const results = await db.query(query, queryParams);
-    console.log(results);
+    // console.log(results);
 
     // Get the total count of tempStudentDetails for pagination metadata
     const countQuery = `SELECT COUNT(*) FROM "tempStudentDetails"`;

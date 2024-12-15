@@ -71,12 +71,13 @@ export const studentDetails = asyncHandler(async (req, res) => {
           "studentEducation" se ON sd.pin_number = se.pin_number
       LEFT JOIN 
           "roomAllotment" ra ON sd.pin_number = ra.pin_number
+      WHERE sd.is_alumni = false
     `;
     let paramIndex = 1;
     const params = [];
 
     if (category) {
-      query += ` WHERE ra.category = $${paramIndex}`;
+      query += ` AND ra.category = $${paramIndex}`;
       params.push(category);
       paramIndex++;
     }

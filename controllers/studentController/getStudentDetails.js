@@ -72,17 +72,18 @@ export const getStudentDetails = asyncHandler(async (req, res) => {
           "studentEducation" se ON sd.pin_number = se.pin_number
       LEFT JOIN 
           "roomAllotment" ra ON sd.pin_number = ra.pin_number
+      WHERE sd.is_alumni = false
     `;
 
     // Apply filters if query parameters are provided
     const queryParams = [];
     let paramIndex = 1;
     if (student_full_name) {
-      query += ` WHERE sd.student_full_name ILIKE $${paramIndex}`;
+      query += ` AND sd.student_full_name ILIKE $${paramIndex}`;
       queryParams.push(`%${student_full_name}%`);
       paramIndex++;
     } else if (pin_number) {
-      query += ` WHERE sd.pin_number = $${paramIndex}`;
+      query += ` AND sd.pin_number = $${paramIndex}`;
       queryParams.push(pin_number);
       paramIndex++;
     }
