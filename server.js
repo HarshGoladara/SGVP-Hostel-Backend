@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import db from './config/dbConnection.js';
+// import db from './config/dbConnection.js';
 import routerAdmission from './routes/admissionRoutes.js';
 import routerStudent from './routes/studentRoutes.js';
 import routerUpdateData from './routes/updateDataRoutes.js';
@@ -25,19 +25,19 @@ app.use('/api/credential', routerCredentials);
 app.use('/api/auth', routerAuth);
 
 function startServer() {
-  // Example: Query the database when the server starts
-  async function checkDBConnection() {
-    try {
-      await db.connect();
-      console.log(
-        '=============🚀 Database connection successful 🚀 ====================',
-      );
-    } catch (err) {
-      console.error('Error connecting to the database:', err.message);
-    }
-  }
+  // // Example: Query the database when the server starts
+  // async function checkDBConnection() {
+  //   try {
+  //     await db.connect();
+  //     console.log(
+  //       '=============🚀 Database connection successful 🚀 ====================',
+  //     );
+  //   } catch (err) {
+  //     console.error('Error connecting to the database:', err.message);
+  //   }
+  // }
 
-  checkDBConnection(); // Check DB connection on server startup
+  // checkDBConnection(); // Check DB connection on server startup
 
   // Start the server
   app.listen(PORT, () => {

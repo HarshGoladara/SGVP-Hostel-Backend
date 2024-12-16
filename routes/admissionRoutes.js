@@ -12,6 +12,9 @@ import { addStudent } from '../controllers/admissionController/addStudent.js';
 import { tempAddStudentDetails } from '../controllers/admissionController/tempAddStudentDetails.js';
 import { deleteStudentFromTemp } from '../controllers/admissionController/deleteStudentFromTemp.js';
 import { getTempStudentDetails } from '../controllers/admissionController/getTempStudentDetails.js';
+import { confirmAdmission } from '../controllers/admissionController/confirmAdmission.js';
+import { moveToAlumni } from '../controllers/admissionController/moveToAlumni.js';
+import { addRector } from '../controllers/admissionController/addRector.js';
 
 // router.route("/studentDetails").get(studentDetails);//for fetching all the student info from database
 // router.route("/studentDetailsByPinNumber").get(studentDetailsByPinNumber);//for fetching all the student info from database
@@ -27,6 +30,9 @@ router.route('/addStudent').post(addStudent);
 router.route('/tempAddStudentDetails').post(tempAddStudentDetails);
 router.route('/getTempStudentDetails').get(getTempStudentDetails);
 router.route('/deleteStudentFromTemp').delete(deleteStudentFromTemp);
+router.route('/confirmAdmission').post(confirmAdmission);
+router.route('/moveToAlumni').post(moveToAlumni);
+router.route('/addRector').post(addRector);
 
 // update and delete apis are yet to be implemented.
 export default router;
