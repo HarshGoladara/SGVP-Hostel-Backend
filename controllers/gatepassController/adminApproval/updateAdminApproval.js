@@ -18,7 +18,7 @@ export const updateAdminApproval = asyncHandler(async (req, res) => {
       params.push(admin_approval_status);
       paramIndex++;
     }
-    if (remarks) {
+    if (remarks !== null) {
       query += `remarks = $${paramIndex}, `;
       params.push(remarks);
       paramIndex++;

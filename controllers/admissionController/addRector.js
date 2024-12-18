@@ -1,6 +1,9 @@
 import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 
+// @description add new rector
+// @route POST /api/admission/addRector
+// @access public
 export const addRector = asyncHandler(async (req, res) => {
   try {
     const { name, email_id, mobile_number, photo_url } = req.body;

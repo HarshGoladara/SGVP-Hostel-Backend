@@ -79,11 +79,11 @@ export const getAlumni = asyncHandler(async (req, res) => {
     const queryParams = [];
     let paramIndex = 1;
     if (student_full_name) {
-      query += ` AND student_full_name ILIKE $${paramIndex}`;
+      query += ` AND sd.student_full_name ILIKE $${paramIndex}`;
       queryParams.push(`%${student_full_name}%`);
       paramIndex++;
     } else if (pin_number) {
-      query += ` AND pin_number = $${paramIndex}`;
+      query += ` AND sd.pin_number = $${paramIndex}`;
       queryParams.push(pin_number);
       paramIndex++;
     }

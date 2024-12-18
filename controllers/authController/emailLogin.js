@@ -1,6 +1,9 @@
 import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 
+// @description Login via email
+// @route POST /api/auth/emailLogin
+// @access public
 export const emailLogin = asyncHandler(async (req, res) => {
   try {
     const { email_id } = req.body;

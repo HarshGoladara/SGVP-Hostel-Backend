@@ -23,7 +23,7 @@ export const updateParentApproval = asyncHandler(async (req, res) => {
       params.push(parent_approval_status);
       paramIndex++;
     }
-    if (remarks) {
+    if (remarks !== null) {
       query += `remarks = $${paramIndex}, `;
       params.push(remarks);
       paramIndex++;

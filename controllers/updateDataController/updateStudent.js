@@ -334,7 +334,7 @@ import db from '../../config/dbConnection.js';
 // @route PUT /api/updateData/updateStudent
 // @access public
 export const updateStudent = asyncHandler(async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const { pin_number } = req.body;
     const {
