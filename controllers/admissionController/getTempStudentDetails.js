@@ -5,7 +5,7 @@ import db from '../../config/dbConnection.js';
 // @route GET /api/admission/getTempStudentDetails?page=<page_number>&limit=<limit>
 // @access Public
 export const getTempStudentDetails = asyncHandler(async (req, res) => {
-  const { page, limit, student_full_name, entry_number, admission_status } =
+  const { page, limit, student_full_name, search_query, admission_status } =
     req.query;
 
   try {
@@ -25,9 +25,9 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
       query += ` AND student_full_name ILIKE $${paramIndex}`;
       queryParams.push(`%${student_full_name}%`);
       paramIndex++;
-    } else if (entry_number) {
-      query += ` AND entry_number = $${paramIndex}`;
-      queryParams.push(entry_number);
+    } else if (search_query) {
+      query += ` AND (entry_number = $${paramIndex} OR pin_number = $${paramIndex})`;
+      queryParams.push(search_query);
       paramIndex++;
     }
 
