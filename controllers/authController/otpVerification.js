@@ -44,7 +44,7 @@ export const otpVerification = asyncHandler(async (req, res) => {
     // Fetch user role and credentials
     const roleQuery = `
         SELECT r.role_id, r.role_name, r.gatepass_approval_credential, r.gatepass_creation_credential,
-               r.attendace_marking_credential, r.room_allotment_credential, r.admission_credential
+               r.attendace_marking_credential, r.room_allotment_credential, r.admission_credential, r.can_grant_access, r.update_data_credentials
         FROM "userRole" ur
         INNER JOIN "rolesAndCredentials" r ON ur.role_id = r.role_id
         WHERE ur.mobile_number = $1
