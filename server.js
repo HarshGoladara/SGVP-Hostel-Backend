@@ -7,6 +7,7 @@ import routerUpdateData from './routes/updateDataRoutes.js';
 import routerGatepass from './routes/gatepassRoutes.js';
 import routerCredentials from './routes/credentialRoutes.js';
 import routerAuth from './routes/authRoutes.js';
+import routerDashboard from './routes/dashboardRoutes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use('/api/updateData', routerUpdateData); //known as middleware
 app.use('/api/gatepass', routerGatepass);
 app.use('/api/credential', routerCredentials);
 app.use('/api/auth', routerAuth);
+app.use('/api/dashboard', routerDashboard);
 
 function startServer() {
   // // Example: Query the database when the server starts
@@ -48,8 +50,8 @@ function startServer() {
   //     console.log(`Server is running on http://192.168.70.71:${PORT}`);
   // });
 
-  // app.listen(PORT, 'http://192.168.18.71', () => {//my
-  //     console.log(`Server is running on http://192.168.18.71:${PORT}`);
+  // app.listen(PORT, '192.168.145.71', () => {//my
+  //     console.log(`Server is running on http://192.168.145.71:${PORT}`);
   // });
 
   // app.listen(PORT, '192.168.19.9', () => {//sgvp

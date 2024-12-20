@@ -7,7 +7,7 @@ import db from '../../config/dbConnection.js';
 
 export const addStudent = asyncHandler(async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const {
       pin_number,
       student_full_name,
