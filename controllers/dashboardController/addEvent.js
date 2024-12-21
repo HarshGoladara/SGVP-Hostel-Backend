@@ -12,7 +12,7 @@ export const addEvent = asyncHandler(async (req, res) => {
         `;
     const response = await db.query(Query, [event_date, description]);
     const newEventId = response.rows[0].event_id; // Retrieve the returned event_id
-    console.log(response);
+    // console.log(response);
 
     res.status(201).json({
       message: 'Event Added successfully',

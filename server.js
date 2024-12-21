@@ -8,6 +8,7 @@ import routerGatepass from './routes/gatepassRoutes.js';
 import routerCredentials from './routes/credentialRoutes.js';
 import routerAuth from './routes/authRoutes.js';
 import routerDashboard from './routes/dashboardRoutes.js';
+import routerPagination from './routes/paginationRoutes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use('/api/gatepass', routerGatepass);
 app.use('/api/credential', routerCredentials);
 app.use('/api/auth', routerAuth);
 app.use('/api/dashboard', routerDashboard);
+app.use('/api/pagination', routerPagination);
 
 function startServer() {
   // // Example: Query the database when the server starts

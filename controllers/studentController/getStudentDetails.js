@@ -5,7 +5,7 @@ import db from '../../config/dbConnection.js';
 // @route GET /api/student/getStudentDetails?page=<page_number>&limit=<limit>&name=<student_full_name>&pin_number=<pin_number>
 // @access public
 export const getStudentDetails = asyncHandler(async (req, res) => {
-  const { page, limit, student_full_name, pin_number } = req.query;
+  const { page, limit, student_full_name, pin_number, category } = req.query;
 
   try {
     // Pagination variables
@@ -57,7 +57,8 @@ export const getStudentDetails = asyncHandler(async (req, res) => {
           rr.relation AS reference_relative_relation,
           rr.mobile_number AS reference_relative_mobile,
           ra.room_number as room_number,
-          ra.bed_number as bed_number
+          ra.bed_number as bed_number,
+          ra.category as category
       FROM 
           "studentData" sd
       LEFT JOIN 
@@ -86,6 +87,10 @@ export const getStudentDetails = asyncHandler(async (req, res) => {
       query += ` AND sd.pin_number = $${paramIndex}`;
       queryParams.push(pin_number);
       paramIndex++;
+    } else if (category) {
+      query += ` AND ra.category = $${paramIndex}`;
+      queryParams.push(category);
+      paramIndex++;
     }
 
     // Pagination logic
@@ -101,8 +106,19 @@ export const getStudentDetails = asyncHandler(async (req, res) => {
     const results = await db.query(query, queryParams);
 
     // Get the total count of students for pagination metadata
-    const countQuery = `SELECT COUNT(*) FROM "studentData"`;
-    const countResult = await db.query(countQuery);
+    let countQuery = `SELECT COUNT(*) FROM "studentData" WHERE is_alumni = false`;
+    const countQueryParams = [];
+    let countParamIndex = 1;
+    if (student_full_name) {
+      countQuery += ` AND student_full_name ILIKE $${countParamIndex}`;
+      countQueryParams.push(`%${student_full_name}%`);
+      countParamIndex++;
+    } else if (pin_number) {
+      countQuery += ` AND pin_number = $${countParamIndex}`;
+      countQueryParams.push(pin_number);
+      countParamIndex++;
+    }
+    const countResult = await db.query(countQuery, countQueryParams);
     const totalItems = parseInt(countResult.rows[0].count);
     const totalPages = Math.ceil(totalItems / pageLimit);
 

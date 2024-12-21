@@ -94,8 +94,19 @@ export const studentDetails = asyncHandler(async (req, res) => {
     const results = await db.query(query, params);
 
     // Get the total count of students for pagination metadata
-    const countQuery = `SELECT COUNT(*) FROM "studentData"`;
-    const countResult = await db.query(countQuery);
+    let countQuery = `SELECT COUNT(*) FROM 
+            "studentData" sd
+          LEFT JOIN 
+            "roomAllotment" ra ON sd.pin_number = ra.pin_number
+          WHERE sd.is_alumni = false`;
+    const countQueryParams = [];
+    let countParamIndex = 1;
+    if (category) {
+      countQuery += ` AND ra.category = $${countParamIndex}`;
+      countQueryParams.push(category);
+      countParamIndex++;
+    }
+    const countResult = await db.query(countQuery, countQueryParams);
     const totalItems = parseInt(countResult.rows[0].count);
     const totalPages = Math.ceil(totalItems / limit);
 
