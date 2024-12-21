@@ -50,20 +50,8 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
     const results = await db.query(query, queryParams);
     // console.log(results);
 
-    // Get the total count of tempStudentDetails for pagination metadata
-    const countQuery = `SELECT COUNT(*) FROM "tempStudentDetails"`;
-    const countResult = await db.query(countQuery);
-    const totalItems = parseInt(countResult.rows[0].count);
-    const totalPages = Math.ceil(totalItems / limit);
-
     res.status(200).json({
       data: results.rows,
-      pagination: {
-        totalItems,
-        totalPages,
-        currentPage: page,
-        pageSize: limit,
-      },
     });
   } catch (err) {
     console.error(`Error fetching temp student details: ${err.message}`);

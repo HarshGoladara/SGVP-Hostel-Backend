@@ -26,7 +26,7 @@ export const addGatepassInArchived = asyncHandler(async (req, res) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     `;
 
-    db.query(query, [
+    await db.query(query, [
       gatepass_number,
       pin_number,
       gatepass_created,

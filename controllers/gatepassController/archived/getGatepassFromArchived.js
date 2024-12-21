@@ -64,25 +64,9 @@ export const getGatepassFromArchived = asyncHandler(async (req, res) => {
     const results = await db.query(query, params);
     // console.log(results);
 
-    // Get the total count of alumni for pagination metadata
-    const countQuery = `SELECT COUNT(*) FROM "archivedGatepass"`;
-    const countResult = await db.query(countQuery);
-    const totalItems = parseInt(countResult.rows[0].count);
-    const totalPages = Math.ceil(totalItems / limit);
-
-    // res.status(201).json({
-    //   message: 'Gatepass fetched from Admin successfully',
-    //   data: results.rows, // Return the fetched data
-    // });
     res.status(200).json({
       message: 'Gatepass fetched from Admin successfully',
       data: results.rows,
-      pagination: {
-        totalItems,
-        totalPages,
-        currentPage: page,
-        pageSize: limit,
-      },
     });
   } catch (error) {
     console.log(error);

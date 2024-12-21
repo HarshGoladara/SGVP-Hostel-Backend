@@ -66,49 +66,9 @@ export const getGatepassForAdminApproval = asyncHandler(async (req, res) => {
     const results = await db.query(query, params);
     // console.log(results);
 
-    // Get the total count of alumni for pagination metadata
-    let countQuery = `SELECT COUNT(*) FROM "approvalGatepass"`;
-    const countParams = [];
-    let countParamIndex = 1;
-
-    countQuery += ` WHERE in_timestamp IS NULL`;
-
-    if (parent_approval_status) {
-      countQuery += ` AND parent_approval_status = $${countParamIndex}`;
-      countParams.push(parent_approval_status);
-      countParamIndex++;
-    }
-    if (admin_approval_status) {
-      countQuery += ` AND admin_approval_status = $${countParamIndex}`;
-      countParams.push(admin_approval_status);
-      countParamIndex++;
-    }
-
-    // countQuery += `WHERE parent_approval_status = 'approved' AND admin_approval_status = 'pending'`;
-
-    if (query_number) {
-      countQuery += ` AND (gatepass_number = $${countParamIndex} OR pin_number = $${countParamIndex})`;
-      countParams.push(query_number);
-      countParamIndex++;
-    }
-
-    const countResult = await db.query(countQuery, countParams);
-    const totalItems = parseInt(countResult.rows[0].count);
-    const totalPages = Math.ceil(totalItems / limit);
-
-    // res.status(201).json({
-    //   message: 'Gatepass fetched from Admin successfully',
-    //   data: results.rows, // Return the fetched data
-    // });
     res.status(200).json({
       message: 'Gatepass fetched from Admin successfully',
       data: results.rows,
-      pagination: {
-        totalItems,
-        totalPages,
-        currentPage: page,
-        pageSize: limit,
-      },
     });
   } catch (error) {
     console.log(error);
