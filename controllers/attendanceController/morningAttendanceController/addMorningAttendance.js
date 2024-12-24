@@ -11,11 +11,9 @@ export const addMorningAttendance = asyncHandler(async (req, res) => {
 
     // Validate the inputs
     if (!pin_number || !date || !status) {
-      return res
-        .status(400)
-        .json({
-          error: 'All fields are required: pin_number, date, and status.',
-        });
+      return res.status(400).json({
+        error: 'All fields are required: pin_number, date, and status.',
+      });
     }
 
     const query = `
@@ -28,6 +26,7 @@ export const addMorningAttendance = asyncHandler(async (req, res) => {
     const values = [pin_number, date, status];
 
     const response = await db.query(query, values);
+    // console.log(response);
 
     res.status(201).json({
       message: 'Morning attendance added or updated successfully',

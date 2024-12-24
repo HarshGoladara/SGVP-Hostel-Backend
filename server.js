@@ -54,9 +54,10 @@ function startServer() {
   //     console.log(`Server is running on http://192.168.70.71:${PORT}`);
   // });
 
-  // app.listen(PORT, '192.168.145.71', () => {//my
-  //     console.log(`Server is running on http://192.168.145.71:${PORT}`);
-  // });
+  app.listen(PORT, '192.168.145.71', () => {
+    //my
+    console.log(`Server is running on http://192.168.145.71:${PORT}`);
+  });
 
   // app.listen(PORT, '192.168.19.9', () => {//sgvp
   //     console.log(`Server is running on http://192.168.19.9:${PORT}`);

@@ -11,11 +11,9 @@ export const addEveningAttendance = asyncHandler(async (req, res) => {
 
     // Validate the inputs
     if (!pin_number || !date || !status) {
-      return res
-        .status(400)
-        .json({
-          error: 'All fields are required: pin_number, date, and status.',
-        });
+      return res.status(400).json({
+        error: 'All fields are required: pin_number, date, and status.',
+      });
     }
 
     const query = `
