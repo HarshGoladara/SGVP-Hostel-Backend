@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import db from '../../../config/dbConnection.js';
 
 // @description Update gatepass by parent
-// @route PUT api/gatepass/updateParentApproval
+// @route PUT api/gatepass/updateStatusToParentApprove
 // @access public
 export const updateStatusToParentApprove = asyncHandler(async (req, res) => {
   try {
@@ -13,7 +13,7 @@ export const updateStatusToParentApprove = asyncHandler(async (req, res) => {
     }
 
     // Build the query
-    let query = 'UPDATE "parentApprovalProcessGatepass" SET status = $1';
+    let query = 'UPDATE "approvalGatepass" SET status = $1';
     const params = ['approved']; // Set status to 'approved'
 
     // Add remarks if provided

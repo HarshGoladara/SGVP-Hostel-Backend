@@ -26,7 +26,7 @@ export const addParentsDetails = asyncHandler(async (req, res) => {
                 pin_number, father_name, father_contact_number, father_email, father_photo_url, 
                 mother_name, mother_contact_number, mother_photo_url, approval_person_name, approval_person_contact, approval_person_relation, approval_person_email
             ) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         `;
 
     await db.query(query, [

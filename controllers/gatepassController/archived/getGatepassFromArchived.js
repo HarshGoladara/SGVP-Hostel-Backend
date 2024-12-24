@@ -7,23 +7,66 @@ import db from '../../../config/dbConnection.js';
 
 export const getGatepassFromArchived = asyncHandler(async (req, res) => {
   try {
-    const { gatepass_number, pin_number } = req.query;
+    const { page, limit, query_number, startDate, endDate, student_full_name } =
+      req.query;
 
-    let query = 'SELECT * FROM "archivedGatepass"';
+    // Pagination variables
+    const currentPage = parseInt(page) || 1;
+    const pageLimit = parseInt(limit) || 10;
+    const offset = (currentPage - 1) * pageLimit;
+
+    let query = `
+      SELECT 
+        ag.*, 
+        sd.student_full_name 
+      FROM "archivedGatepass" AS ag 
+      JOIN "studentData" AS sd 
+      ON ag.pin_number = sd.pin_number 
+      WHERE 1 = 1
+    `;
     const params = [];
+    let paramIndex = 1;
 
-    if (gatepass_number) {
-      query += ' WHERE gatepass_number = ?';
-      params.push(gatepass_number);
-    } else if (pin_number) {
-      query += ' WHERE pin_number = ?';
-      params.push(pin_number);
+    // query += `WHERE parent_approval_status = 'approved' AND admin_approval_status = 'pending'`;
+
+    if (query_number) {
+      query += ` AND (ag.gatepass_number = $${paramIndex} OR ag.pin_number = $${paramIndex})`;
+      params.push(query_number);
+      paramIndex++;
     }
 
-    db.query(query, params);
+    if (startDate && endDate && startDate <= endDate) {
+      query += ` AND ag.outgoing_timestamp >= $${paramIndex}`;
+      params.push(startDate);
+      paramIndex++;
+      query += ` AND ag.permission_upto_timestamp <= $${paramIndex}`;
+      params.push(endDate);
+      paramIndex++;
+    }
 
-    res.status(201).json({
-      message: 'Gatepass fetched from Archived successfully',
+    if (student_full_name) {
+      query += ` AND sd.student_full_name ILIKE $${paramIndex}`;
+      params.push(`%${student_full_name}%`);
+      paramIndex++;
+    }
+
+    query += ` ORDER BY ag.gatepass_number DESC`;
+
+    // Pagination logic
+    query += ` LIMIT $${paramIndex}`;
+    params.push(pageLimit);
+    paramIndex++;
+
+    query += ` OFFSET $${paramIndex}`;
+    params.push(offset);
+    paramIndex++;
+
+    const results = await db.query(query, params);
+    // console.log(results);
+
+    res.status(200).json({
+      message: 'Gatepass fetched from Admin successfully',
+      data: results.rows,
     });
   } catch (error) {
     console.log(error);
