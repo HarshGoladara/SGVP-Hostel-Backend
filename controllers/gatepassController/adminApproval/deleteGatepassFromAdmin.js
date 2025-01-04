@@ -8,8 +8,7 @@ import db from '../../../config/dbConnection.js';
 export const deleteGatepassFromAdmin = asyncHandler(async (req, res) => {
   try {
     const { gatepass_number } = req.body;
-    const query =
-      'DELETE FROM "adminApprovalProcessGatepass" WHERE gatepass_number = ?';
+    const query = 'DELETE FROM "approvalGatepass" WHERE gatepass_number = $1';
     db.query(query, [gatepass_number]);
   } catch (error) {
     console.log(error);

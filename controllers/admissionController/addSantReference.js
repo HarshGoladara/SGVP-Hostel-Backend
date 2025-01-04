@@ -12,7 +12,7 @@ export const addSantReference = asyncHandler(async (req, res) => {
             INSERT INTO "santReference" (
                 pin_number, name_of_sant, sant_phone_number
             ) 
-            VALUES (?, ?, ?)
+            VALUES ($1, $2, $3)
         `;
 
     await db.query(query, [pin_number, name_of_sant, sant_phone_number]);

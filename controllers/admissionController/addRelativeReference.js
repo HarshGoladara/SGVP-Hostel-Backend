@@ -13,7 +13,7 @@ export const addRelativeReference = asyncHandler(async (req, res) => {
             INSERT INTO "relativeReference" (
                 pin_number, full_name, relation, mobile_number
             ) 
-            VALUES (?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4)
         `;
 
     await db.query(query, [pin_number, full_name, relation, mobile_number]);

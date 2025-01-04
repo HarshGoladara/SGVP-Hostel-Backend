@@ -18,7 +18,7 @@ export const addRelativeDetails = asyncHandler(async (req, res) => {
             INSERT INTO "relative" (
                 pin_number, relative_name, relation, relative_contact_number, relative_address
             ) 
-            VALUES (?, ?, ?, ?, ?)
+            VALUES ($1, $2, $3, $4, $5)
         `;
 
     await db.query(query, [

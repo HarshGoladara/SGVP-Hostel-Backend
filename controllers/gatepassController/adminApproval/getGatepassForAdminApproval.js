@@ -7,23 +7,68 @@ import db from '../../../config/dbConnection.js';
 
 export const getGatepassForAdminApproval = asyncHandler(async (req, res) => {
   try {
-    const { gatepass_number, pin_number } = req.query;
+    const {
+      page,
+      limit,
+      query_number,
+      parent_approval_status,
+      admin_approval_status,
+    } = req.query;
 
-    let query = 'SELECT * FROM "adminApprovalProcessGatepass"';
+    // Pagination variables
+    const currentPage = parseInt(page) || 1;
+    const pageLimit = parseInt(limit) || 10;
+    const offset = (currentPage - 1) * pageLimit;
+
+    let query = `
+      SELECT 
+        ag.*, 
+        sd.student_full_name 
+      FROM "approvalGatepass" AS ag 
+      JOIN "studentData" AS sd 
+      ON ag.pin_number = sd.pin_number 
+    `;
     const params = [];
+    let paramIndex = 1;
 
-    if (gatepass_number) {
-      query += ' WHERE gatepass_number = ?';
-      params.push(gatepass_number);
-    } else if (pin_number) {
-      query += ' WHERE pin_number = ?';
-      params.push(pin_number);
+    query += ` WHERE ag.in_timestamp IS NULL`;
+
+    if (parent_approval_status) {
+      query += ` AND ag.parent_approval_status = $${paramIndex}`;
+      params.push(parent_approval_status);
+      paramIndex++;
+    }
+    if (admin_approval_status) {
+      query += ` AND ag.admin_approval_status = $${paramIndex}`;
+      params.push(admin_approval_status);
+      paramIndex++;
     }
 
-    db.query(query, params);
+    // query += `WHERE parent_approval_status = 'approved' AND admin_approval_status = 'pending'`;
 
-    res.status(201).json({
+    if (query_number) {
+      query += ` AND (ag.gatepass_number = $${paramIndex} OR ag.pin_number = $${paramIndex})`;
+      params.push(query_number);
+      paramIndex++;
+    }
+
+    query += ` ORDER BY ag.gatepass_number DESC`;
+
+    // Pagination logic
+    query += ` LIMIT $${paramIndex}`;
+    params.push(pageLimit);
+    paramIndex++;
+
+    query += ` OFFSET $${paramIndex}`;
+    params.push(offset);
+    paramIndex++;
+
+    const results = await db.query(query, params);
+    // console.log(results);
+
+    res.status(200).json({
       message: 'Gatepass fetched from Admin successfully',
+      data: results.rows,
     });
   } catch (error) {
     console.log(error);
