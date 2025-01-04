@@ -20,6 +20,8 @@ export const getRolesAndCredentials = asyncHandler(async (req, res) => {
       params.push(role_name);
     }
 
+    query += ` ORDER BY role_id`;
+
     const result = await db.query(query, params);
 
     res.status(200).json({

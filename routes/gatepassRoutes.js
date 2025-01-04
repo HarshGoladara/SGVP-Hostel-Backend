@@ -13,6 +13,8 @@ import { updateAdminApproval } from '../controllers/gatepassController/adminAppr
 import { updateIntimeByAdmin } from '../controllers/gatepassController/adminApproval/updateIntimeByAdmin.js';
 import { deleteGatepassFromAdmin } from '../controllers/gatepassController/adminApproval/deleteGatepassFromAdmin.js';
 
+import { getInProcessGatePass } from '../controllers/gatepassController/getInProcessGatePass.js';
+
 import { addGatepassInArchived } from '../controllers/gatepassController/archived/addGatepassInArchived.js';
 import { getGatepassFromArchived } from '../controllers/gatepassController/archived/getGatepassFromArchived.js';
 
@@ -31,6 +33,8 @@ router.route('/getGatepassForAdminApproval').get(getGatepassForAdminApproval);
 router.route('/updateAdminApproval').put(updateAdminApproval);
 router.route('/updateIntimeByAdmin').put(updateIntimeByAdmin);
 router.route('/deleteGatepassFromAdmin').delete(deleteGatepassFromAdmin);
+
+router.route('/getInProcessGatePass').get(getInProcessGatePass);
 
 router.route('/addGatepassInArchived').post(addGatepassInArchived);
 router.route('/getGatepassFromArchived').get(getGatepassFromArchived);

@@ -5,7 +5,14 @@ import db from '../../config/dbConnection.js';
 // @route GET /api/pagination/getStudentPagination
 // @access public
 export const getStudentPagination = asyncHandler(async (req, res) => {
-  const { limit, student_full_name, pin_number, category } = req.query;
+  const {
+    limit,
+    student_full_name,
+    pin_number,
+    category,
+    name_of_university,
+    branch,
+  } = req.query;
 
   try {
     const pageLimit = parseInt(limit) || 10;
@@ -13,6 +20,8 @@ export const getStudentPagination = asyncHandler(async (req, res) => {
     let countQuery = `SELECT COUNT(*) FROM "studentData" sd
         LEFT JOIN 
             "roomAllotment" ra ON sd.pin_number = ra.pin_number
+        LEFT JOIN 
+          "studentEducation" se ON sd.pin_number = se.pin_number
         WHERE sd.is_alumni = false`;
     const countQueryParams = [];
     let countParamIndex = 1;
@@ -28,7 +37,16 @@ export const getStudentPagination = asyncHandler(async (req, res) => {
       countQuery += ` AND ra.category = $${countParamIndex}`;
       countQueryParams.push(category);
       countParamIndex++;
+    } else if (name_of_university) {
+      countQuery += ` AND se.name_of_university = $${countParamIndex}`;
+      countQueryParams.push(name_of_university);
+      countParamIndex++;
+    } else if (branch) {
+      countQuery += ` AND se.branch = $${countParamIndex}`;
+      countQueryParams.push(branch);
+      countParamIndex++;
     }
+
     const countResult = await db.query(countQuery, countQueryParams);
     const totalItems = parseInt(countResult.rows[0].count);
     const totalPages = Math.ceil(totalItems / pageLimit);

@@ -10,6 +10,9 @@ export const getInProcessGatePass = asyncHandler(async (req, res) => {
   try {
     const { pin_number, student_full_name } = req.query;
 
+    // console.log(pin_number);
+    // console.log(student_full_name);
+
     let query = `
       SELECT 
         ag.*, 
@@ -19,7 +22,7 @@ export const getInProcessGatePass = asyncHandler(async (req, res) => {
       ON ag.pin_number = sd.pin_number 
       WHERE ag.parent_approval_status = 'approved'
       AND ag.admin_approval_status = 'approved'
-      AND ag.in_timestamp =  null
+      AND ag.in_timestamp IS null
     `;
 
     const params = [];
@@ -40,6 +43,8 @@ export const getInProcessGatePass = asyncHandler(async (req, res) => {
     query += ` ORDER BY ag.gatepass_created DESC`;
 
     const results = await db.query(query, params);
+
+    // console.log(results);
 
     res.status(200).json({
       message: 'In-process gatepasses fetched successfully',

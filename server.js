@@ -10,6 +10,8 @@ import routerAuth from './routes/authRoutes.js';
 import routerDashboard from './routes/dashboardRoutes.js';
 import routerPagination from './routes/paginationRoutes.js';
 import routerAttendance from './routes/attendanceRoutes.js';
+import routerRoomAllotment from './routes/roomAllotmentRoutes.js';
+import routerNotification from './routes/notificationRoute.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -29,6 +31,8 @@ app.use('/api/auth', routerAuth);
 app.use('/api/dashboard', routerDashboard);
 app.use('/api/pagination', routerPagination);
 app.use('/api/attendance', routerAttendance);
+app.use('/api/roomAllotment', routerRoomAllotment);
+app.use('/api/notifications', routerNotification);
 
 function startServer() {
   // // Example: Query the database when the server starts
@@ -54,14 +58,15 @@ function startServer() {
   //     console.log(`Server is running on http://192.168.70.71:${PORT}`);
   // });
 
-  app.listen(PORT, '192.168.145.71', () => {
-    //my
-    console.log(`Server is running on http://192.168.145.71:${PORT}`);
-  });
-
-  // app.listen(PORT, '192.168.19.9', () => {//sgvp
-  //     console.log(`Server is running on http://192.168.19.9:${PORT}`);
+  // app.listen(PORT, '192.168.145.71', () => {
+  //   //my
+  //   console.log(`Server is running on http://192.168.145.71:${PORT}`);
   // });
+
+  app.listen(PORT, '192.168.19.126', () => {
+    //sgvp
+    console.log(`Server is running on http://192.168.19.126:${PORT}`);
+  });
 
   // app.listen(PORT, '10.7.68.89', () => {//nirma
   //     console.log(`Server is running on http://10.7.68.89:${PORT}`);
