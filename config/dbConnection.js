@@ -39,7 +39,7 @@
 // export default pool;
 
 import postgres from 'pg';
-import pkg from 'pg';
+// import pkg from 'pg';
 import {
   DB_HOST,
   DB_USER,
@@ -47,9 +47,9 @@ import {
   DB_NAME,
   DB_PORT,
 } from './envConfig.js';
-import { DATABASE_URL } from './envConfig.js';
+// import { DATABASE_URL } from './envConfig.js';
 
-const { Pool } = pkg;
+// const { Pool } = pkg;
 
 // local Postgres connection
 const localPool = new postgres.Pool({
@@ -61,19 +61,20 @@ const localPool = new postgres.Pool({
   max: 10,
 });
 
-// Cloud Postgres connection
-const cloudPool = new Pool({
-  connectionString: DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false, // For secure connections
-  },
-});
+// // Cloud Postgres connection
+// const cloudPool = new Pool({
+//   connectionString: DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false, // For secure connections
+//   },
+// });
 
-const pool = DATABASE_URL ? cloudPool : localPool;
-if (DATABASE_URL) {
-  console.log('Cloud connection');
-} else {
-  console.log('local connection');
-}
+const pool = localPool;
+// const pool = DATABASE_URL ? cloudPool : localPool;
+// if (DATABASE_URL) {
+//   console.log('Cloud connection');
+// } else {
+//   console.log('local connection');
+// }
 
 export default pool;

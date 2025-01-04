@@ -1,13 +1,11 @@
 import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 
-// @description Fetch Student Info (Paginated or by Name or Pin Number)
-// @route GET /api/student/getStudentDetails?page=<page_number>&limit=<limit>&name=<student_full_name>&pin_number=<pin_number>
+// @description Fetch Student report Info (Paginated or by Name or Pin Number)
+// @route GET /api/student/getStudentReportDetails?name=<student_full_name>&pin_number=<pin_number>
 // @access public
-export const getStudentDetails = asyncHandler(async (req, res) => {
+export const getStudentReportDetails = asyncHandler(async (req, res) => {
   const {
-    page,
-    limit,
     student_full_name,
     pin_number,
     category,
@@ -16,11 +14,6 @@ export const getStudentDetails = asyncHandler(async (req, res) => {
   } = req.query;
 
   try {
-    // Pagination variables
-    const currentPage = parseInt(page) || 1;
-    const pageLimit = parseInt(limit) || 10;
-    const offset = (currentPage - 1) * pageLimit;
-
     // Base query for fetching student data
     let query = `
       SELECT 
@@ -111,15 +104,6 @@ export const getStudentDetails = asyncHandler(async (req, res) => {
 
     query += ` ORDER BY sd.pin_number`;
 
-    // Pagination logic
-    query += ` LIMIT $${paramIndex}`;
-    queryParams.push(pageLimit);
-    paramIndex++;
-
-    query += ` OFFSET $${paramIndex}`;
-    queryParams.push(offset);
-    paramIndex++;
-
     // Execute the query
     const results = await db.query(query, queryParams);
 
@@ -128,6 +112,6 @@ export const getStudentDetails = asyncHandler(async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error retrieving student info');
+    res.status(500).send('Error retrieving student info for report generation');
   }
 });

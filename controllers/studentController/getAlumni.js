@@ -88,6 +88,8 @@ export const getAlumni = asyncHandler(async (req, res) => {
       paramIndex++;
     }
 
+    query += ` ORDER BY sd.pin_number`;
+
     // Pagination logic
     query += ` LIMIT $${paramIndex}`;
     queryParams.push(pageLimit);
