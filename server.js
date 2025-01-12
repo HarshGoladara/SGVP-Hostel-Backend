@@ -12,6 +12,7 @@ import routerPagination from './routes/paginationRoutes.js';
 import routerAttendance from './routes/attendanceRoutes.js';
 import routerRoomAllotment from './routes/roomAllotmentRoutes.js';
 import routerNotification from './routes/notificationRoute.js';
+import routerRector from './routes/rectorRoutes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use('/api/pagination', routerPagination);
 app.use('/api/attendance', routerAttendance);
 app.use('/api/roomAllotment', routerRoomAllotment);
 app.use('/api/notifications', routerNotification);
+app.use('/api/rector', routerRector);
 
 function startServer() {
   // // Example: Query the database when the server starts
@@ -63,10 +65,10 @@ function startServer() {
   //   console.log(`Server is running on http://192.168.145.71:${PORT}`);
   // });
 
-  app.listen(PORT, '192.168.19.126', () => {
-    //sgvp
-    console.log(`Server is running on http://192.168.19.126:${PORT}`);
-  });
+  // app.listen(PORT, '192.168.19.126', () => {
+  //   //sgvp
+  //   console.log(`Server is running on http://192.168.19.126:${PORT}`);
+  // });
 
   // app.listen(PORT, '10.7.68.89', () => {//nirma
   //     console.log(`Server is running on http://10.7.68.89:${PORT}`);

@@ -12,7 +12,10 @@ export const getArchivedGatepassPagination = asyncHandler(async (req, res) => {
     const pageLimit = parseInt(limit) || 10;
     // Get the total count of students for pagination metadata
     let countQuery = `SELECT COUNT(*) 
-            FROM "archivedGatepass" AS ag WHERE 1 = 1
+            FROM "archivedGatepass" AS ag 
+            JOIN "studentData" AS sd 
+            ON ag.pin_number = sd.pin_number 
+            WHERE 1 = 1
         `;
     const countQueryParams = [];
     let countParamIndex = 1;

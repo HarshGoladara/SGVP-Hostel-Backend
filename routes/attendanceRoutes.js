@@ -12,15 +12,25 @@ import { getEveningAttendance } from '../controllers/attendanceController/evenin
 import { getNightAttendance } from '../controllers/attendanceController/nightAttendanceController/getNightAttendance.js';
 import { getSundayAttendance } from '../controllers/attendanceController/sundayAttendanceController/getSundayAttendance.js';
 
-router.route('/addMorningAttendance').post(addMorningAttendance); //for fetching all the student info from database
-router.route('/addEveningAttendance').post(addEveningAttendance); //for fetching all the student info from database
-router.route('/addNightAttendance').post(addNightAttendance); //for fetching all the student info from database
-router.route('/addSundayAttendance').post(addSundayAttendance); //for fetching all the student info from database
+import { getMorningAttendanceTable } from '../controllers/attendanceController/morningAttendanceController/getMorningAttendanceTable.js';
+import { getEveningAttendanceTable } from '../controllers/attendanceController/eveningAttendanceController/getEveningAttendanceTable.js';
+import { getNightAttendanceTable } from '../controllers/attendanceController/nightAttendanceController/getNightAttendanceTable.js';
+import { getSundayAttendanceTable } from '../controllers/attendanceController/sundayAttendanceController/getSundayAttendanceTable.js';
 
-router.route('/getTotalStudents').get(getTotalStudents); //for fetching all the student info from database
-router.route('/getMorningAttendance').get(getMorningAttendance); //for fetching all the student info from database
-router.route('/getEveningAttendance').get(getEveningAttendance); //for fetching all the student info from database
-router.route('/getNightAttendance').get(getNightAttendance); //for fetching all the student info from database
-router.route('/getSundayAttendance').get(getSundayAttendance); //for fetching all the student info from database
+router.route('/addMorningAttendance').post(addMorningAttendance);
+router.route('/addEveningAttendance').post(addEveningAttendance);
+router.route('/addNightAttendance').post(addNightAttendance);
+router.route('/addSundayAttendance').post(addSundayAttendance);
+
+router.route('/getTotalStudents').get(getTotalStudents);
+router.route('/getMorningAttendance').get(getMorningAttendance);
+router.route('/getEveningAttendance').get(getEveningAttendance);
+router.route('/getNightAttendance').get(getNightAttendance);
+router.route('/getSundayAttendance').get(getSundayAttendance);
+
+router.route('/getMorningAttendanceTable').get(getMorningAttendanceTable);
+router.route('/getEveningAttendanceTable').get(getEveningAttendanceTable);
+router.route('/getNightAttendanceTable').get(getNightAttendanceTable);
+router.route('/getSundayAttendanceTable').get(getSundayAttendanceTable);
 
 export default router;
