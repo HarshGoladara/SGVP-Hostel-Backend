@@ -13,7 +13,7 @@ export const updateStatusToParentDisapprove = asyncHandler(async (req, res) => {
     }
 
     // Build the query
-    let query = 'UPDATE "approvalGatepass" SET status = $1';
+    let query = 'UPDATE "approvalGatepass" SET parent_approval_status = $1';
     const params = ['disapproved']; // Set status to 'approved'
 
     // Add remarks if provided

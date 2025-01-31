@@ -379,7 +379,12 @@ export const updateStudent = asyncHandler(async (req, res) => {
       reference_relative_mobile,
       room_number,
       bed_number,
+      old_student_contact_number,
+      old_father_contact_number,
+      old_mother_contact_number,
     } = req.body;
+
+    // console.log(old_student_contact_number, old_father_contact_number, old_mother_contact_number);
 
     const updateQueries = [
       {
@@ -481,6 +486,13 @@ export const updateStudent = asyncHandler(async (req, res) => {
         await db.query(query, params);
       }
     }
+
+    let updateContactQuery = `UPDATE "userRole" SET mobile_number = ${student_contact_number} WHERE mobile_number = ${old_student_contact_number}`;
+    await db.query(updateContactQuery);
+    updateContactQuery = `UPDATE "userRole" SET mobile_number = ${father_contact_number} WHERE mobile_number = ${old_father_contact_number}`;
+    await db.query(updateContactQuery);
+    updateContactQuery = `UPDATE "userRole" SET mobile_number = ${mother_contact_number} WHERE mobile_number = ${old_mother_contact_number}`;
+    await db.query(updateContactQuery);
 
     res.status(200).json({
       message: 'Student updated successfully',

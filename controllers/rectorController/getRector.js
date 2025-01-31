@@ -7,8 +7,14 @@ import db from '../../config/dbConnection.js';
 
 export const getRector = asyncHandler(async (req, res) => {
   try {
-    const query = `SELECT * FROM "rectorInfo" ORDER BY rector_id`;
-    const results = await db.query(query);
+    const { rector_id } = req.query;
+    const query = rector_id
+      ? `SELECT * FROM "rectorInfo" WHERE rector_id = $1`
+      : `SELECT * FROM "rectorInfo" ORDER BY rector_id`;
+
+    const params = rector_id ? [rector_id] : [];
+
+    const results = await db.query(query, params);
 
     res.status(200).json({
       data: results.rows,
