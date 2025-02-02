@@ -22,6 +22,9 @@ const PORT = process.env.PORT || 5001;
 app.use(express.json());
 app.use(cors());
 
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static('uploads'));
+
 // routes
 app.use('/api/admission', routerAdmission); //known as middleware
 app.use('/api/student', routerStudent); //known as middleware
@@ -60,15 +63,15 @@ function startServer() {
   //     console.log(`Server is running on http://192.168.70.71:${PORT}`);
   // });
 
-  // app.listen(PORT, '192.168.94.71', () => {
-  //   //my
-  //   console.log(`Server is running on http://192.168.94.71:${PORT}`);
-  // });
-
-  app.listen(PORT, '192.168.19.126', () => {
-    //sgvp
-    console.log(`Server is running on http://192.168.19.126:${PORT}`);
+  app.listen(PORT, '192.168.94.71', () => {
+    //my
+    console.log(`Server is running on http://192.168.94.71:${PORT}`);
   });
+
+  // app.listen(PORT, '192.168.19.126', () => {
+  //   //sgvp
+  //   console.log(`Server is running on http://192.168.19.126:${PORT}`);
+  // });
 
   // app.listen(PORT, '10.7.68.89', () => {//nirma
   //     console.log(`Server is running on http://10.7.68.89:${PORT}`);
