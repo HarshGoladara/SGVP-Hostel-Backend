@@ -1,6 +1,9 @@
 import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 import otpGenerator from 'otp-generator';
+import axios from 'axios';
+import { AUTHKEY, TEMPLATE_ID } from '../../config/envConfig.js';
+
 // import {
 //   TWILIO_ACCOUNT_SID,
 //   TWILIO_AUTH_TOKEN,
@@ -38,7 +41,9 @@ export const login = asyncHandler(async (req, res) => {
       `;
     await db.query(query, [mobile_number, otp]);
 
-    // ----------------------sms otp sending logic start-----------------------------------------
+    const recieverPhone = phone[0] === '+' ? phone.slice(1) : phone;
+
+    // ----------------------sms otp sending logic USING TWILIO start-----------------------------------------
 
     // // Twilio credentials (use environment variables for security)
     // const accountSid = TWILIO_ACCOUNT_SID; // Your Twilio Account SID
@@ -51,12 +56,41 @@ export const login = asyncHandler(async (req, res) => {
     // const message = await client.messages.create({
     //   body: `SGVP sent you an OTP, Your OTP is: ${otp}. It is valid for 5 minutes.`,
     //   from: twilioPhoneNumber,
-    //   to: `+${phone}${mobile_number}`, // Ensure mobile_number includes the country code
+    //   to: `+${recieverPhone}${mobile_number}`, // Ensure mobile_number includes the country code
     // });
 
     // console.log(message);
 
-    // ----------------------sms otp sending logic end-----------------------------------------
+    // ----------------------sms otp sending logic USING TWILIO end-----------------------------------------
+
+    // -----------------------sgvp sms service code start----------------------------
+    const tataTelecomConfig = {
+      method: 'post',
+      url: 'https://control.msg91.com/api/v5/flow', // Replace with actual Tata Telecom API endpoint
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json',
+        authkey: `${AUTHKEY}`, // Replace with your Tata Telecom API auth token
+      },
+      data: {
+        template_id: `${TEMPLATE_ID}`,
+        short_url: '1 (On) or 0 (Off)',
+        short_url_expiry: 'Seconds (Optional)',
+        realTimeResponse: '1 (Optional)',
+        recipients: [
+          {
+            mobiles: `${recieverPhone}${mobile_number}`,
+            otp: `${otp}`,
+          },
+        ],
+      },
+    };
+
+    // Send OTP via Tata Telecom SMS API
+    const response = await axios(tataTelecomConfig);
+
+    console.log('SMS Response:', response.data);
+    // -----------------------sgvp sms service code end----------------------------
 
     // Simulate sending OTP (Replace this with actual SMS sending logic)
     console.log(`OTP for ${mobile_number}: ${otp}`);
