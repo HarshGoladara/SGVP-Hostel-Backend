@@ -15,7 +15,8 @@ export const getRooms = asyncHandler(async (req, res) => {
             r.room_number,
             r.bed_number,
             ra.pin_number,
-            sd.student_full_name
+            sd.student_full_name,
+            sd.student_photo_url
             FROM "rooms" r
             LEFT JOIN "roomAllotment" ra
             ON r.room_number = ra.room_number AND r.bed_number = ra.bed_number

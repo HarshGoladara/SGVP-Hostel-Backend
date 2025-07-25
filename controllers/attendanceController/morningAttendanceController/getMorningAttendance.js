@@ -13,10 +13,14 @@ export const getMorningAttendance = asyncHandler(async (req, res) => {
       startDate,
       endDate,
       status,
+      date,
       category,
     } = req.query;
-    const date = new Date().toLocaleDateString().split('/').reverse().join('-');
+    const queryDate = date
+      ? date
+      : new Date().toLocaleDateString().split('/').reverse().join('-');
 
+    // console.log(queryDate,"-------------");
     // Build the base query
     let query = `SELECT 
         sd.pin_number,
@@ -30,7 +34,8 @@ export const getMorningAttendance = asyncHandler(async (req, res) => {
           pd.father_contact_number,
           ra.room_number as room_number,
           ra.bed_number as bed_number,
-          ma.date as date
+          ma.date as date,
+          ma.status as status
         FROM 
             "morningAttendance" ma
         LEFT JOIN 
@@ -72,7 +77,7 @@ export const getMorningAttendance = asyncHandler(async (req, res) => {
       paramIndex++;
     } else {
       query += ` AND ma.date = $${paramIndex}`;
-      params.push(date);
+      params.push(queryDate);
       paramIndex++;
     }
 

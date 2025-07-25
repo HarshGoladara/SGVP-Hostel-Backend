@@ -12,6 +12,7 @@ import { addEvent } from '../controllers/dashboardController/addEvent.js';
 import { updateEvent } from '../controllers/dashboardController/updateEvent.js';
 import { deleteEvent } from '../controllers/dashboardController/deleteEvent.js';
 import { getEmptyBed } from '../controllers/dashboardController/getEmptyBed.js';
+import { getTodayBirthdayStudents } from '../controllers/dashboardController/getTodayBirthdayStudents.js';
 
 router.route('/getTotalStudents').get(getTotalStudents);
 router.route('/getPendingAdmission').get(getPendingAdmission);
@@ -24,5 +25,6 @@ router.route('/addEvent').post(addEvent);
 router.route('/updateEvent').put(updateEvent);
 router.route('/deleteEvent').delete(deleteEvent);
 router.route('/getEmptyBed').get(getEmptyBed);
+router.route('/getTodayBirthdayStudents').get(getTodayBirthdayStudents);
 
 export default router;

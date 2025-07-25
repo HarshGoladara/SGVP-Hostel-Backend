@@ -84,13 +84,33 @@ export const otpVerification = asyncHandler(async (req, res) => {
     const pinNumber =
       pinResult.rows.length > 0 ? pinResult.rows[0].pin_number : null;
 
-    // console.log(pinNumber);
+    // Fetch rector_id based on the role
+    let rectorIdQuery = '';
+    if (userRole.role_name === 'rector') {
+      rectorIdQuery = `
+        SELECT rector_id
+        FROM "rectorInfo"
+        WHERE mobile_number = $1
+      `;
+    }
+
+    let rectorIdResult = { rows: [] };
+    if (rectorIdQuery) {
+      rectorIdResult = await db.query(rectorIdQuery, [mobile_number]);
+    }
+
+    // Add pin_number to the response if found
+    const rectorId =
+      rectorIdResult.rows.length > 0 ? rectorIdResult.rows[0].rector_id : null;
+
+    // console.log(rectorId);
 
     res.status(200).json({
       message: 'Login successful',
       data: {
         ...userRole,
         pin_number: pinNumber, // Include the pin number in the response
+        rector_id: rectorId, // Include the rector id in the response
       },
     });
   } catch (error) {

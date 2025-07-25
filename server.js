@@ -12,6 +12,7 @@ import routerPagination from './routes/paginationRoutes.js';
 import routerAttendance from './routes/attendanceRoutes.js';
 import routerRoomAllotment from './routes/roomAllotmentRoutes.js';
 import routerNotification from './routes/notificationRoute.js';
+import routerRector from './routes/rectorRoutes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -20,6 +21,9 @@ const PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(cors());
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static('uploads'));
 
 // routes
 app.use('/api/admission', routerAdmission); //known as middleware
@@ -33,6 +37,7 @@ app.use('/api/pagination', routerPagination);
 app.use('/api/attendance', routerAttendance);
 app.use('/api/roomAllotment', routerRoomAllotment);
 app.use('/api/notifications', routerNotification);
+app.use('/api/rector', routerRector);
 
 function startServer() {
   // // Example: Query the database when the server starts
@@ -58,9 +63,9 @@ function startServer() {
   //     console.log(`Server is running on http://192.168.70.71:${PORT}`);
   // });
 
-  // app.listen(PORT, '192.168.145.71', () => {
+  // app.listen(PORT, '192.168.94.71', () => {
   //   //my
-  //   console.log(`Server is running on http://192.168.145.71:${PORT}`);
+  //   console.log(`Server is running on http://192.168.94.71:${PORT}`);
   // });
 
   app.listen(PORT, '192.168.19.126', () => {

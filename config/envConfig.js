@@ -29,4 +29,6 @@ export const {
   PGUSER,
   PGDATABASE,
   PGPASSWORD,
+  AUTHKEY,
+  TEMPLATE_ID,
 } = process.env;

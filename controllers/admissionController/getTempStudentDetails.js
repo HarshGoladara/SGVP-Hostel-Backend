@@ -37,6 +37,8 @@ export const getTempStudentDetails = asyncHandler(async (req, res) => {
       paramIndex++;
     }
 
+    query += ` ORDER BY entry_number DESC`;
+
     // Pagination logic
     query += ` LIMIT $${paramIndex}`;
     queryParams.push(pageLimit);

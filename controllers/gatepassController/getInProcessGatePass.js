@@ -20,9 +20,7 @@ export const getInProcessGatePass = asyncHandler(async (req, res) => {
       FROM "approvalGatepass" AS ag 
       JOIN "studentData" AS sd 
       ON ag.pin_number = sd.pin_number 
-      WHERE ag.parent_approval_status = 'approved'
-      AND ag.admin_approval_status = 'approved'
-      AND ag.in_timestamp IS null
+      WHERE ag.in_timestamp IS null
     `;
 
     const params = [];

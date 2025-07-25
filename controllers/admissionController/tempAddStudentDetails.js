@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import db from '../../config/dbConnection.js';
 import { parseISO, format } from 'date-fns';
+import upload from '../../config/multerConfig.js';
 
 // @description Add student details in temporary table
 // @route POST /api/admission/tempAddStudentDetails
@@ -9,52 +10,72 @@ import { parseISO, format } from 'date-fns';
 export const tempAddStudentDetails = asyncHandler(async (req, res) => {
   try {
     // console.log(req.body);
-    const {
-      student_full_name,
-      dob,
-      nationality,
-      religion,
-      caste,
-      address,
-      city,
-      postal_pin_number,
-      student_contact_number,
-      student_email,
-      student_qualification,
-      student_photo_url,
-      name_of_university,
-      name_of_collage,
-      course,
-      branch,
-      course_duration_years,
-      current_year,
-      current_sem,
-      father_name,
-      father_contact_number,
-      father_email,
-      father_photo_url,
-      mother_name,
-      mother_contact_number,
-      mother_photo_url,
-      approval_person_name,
-      approval_person_contact,
-      approval_person_relation,
-      approval_person_email,
-      relative_name,
-      relative_relation,
-      relative_contact_number,
-      relative_address,
-      name_of_sant,
-      sant_phone_number,
-      reference_relative_full_name,
-      reference_relative_relation,
-      reference_relative_mobile,
-    } = req.body;
+    // Use Multer middleware to handle file uploads
+    upload.fields([
+      { name: 'student_profile_photo', maxCount: 1 },
+      { name: 'father_profile_photo', maxCount: 1 },
+      { name: 'mother_profile_photo', maxCount: 1 },
+    ])(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({ message: err.message });
+      }
+      const {
+        student_full_name,
+        dob,
+        nationality,
+        religion,
+        caste,
+        address,
+        city,
+        postal_pin_number,
+        student_contact_number,
+        student_email,
+        student_qualification,
+        // student_photo_url,
+        name_of_university,
+        name_of_collage,
+        course,
+        branch,
+        course_duration_years,
+        current_year,
+        current_sem,
+        father_name,
+        father_contact_number,
+        father_email,
+        // father_photo_url,
+        mother_name,
+        mother_contact_number,
+        // mother_photo_url,
+        approval_person_name,
+        approval_person_contact,
+        approval_person_relation,
+        approval_person_email,
+        relative_name,
+        relative_relation,
+        relative_contact_number,
+        relative_address,
+        name_of_sant,
+        sant_phone_number,
+        reference_relative_full_name,
+        reference_relative_relation,
+        reference_relative_mobile,
+      } = req.body;
 
-    // Format the `dob` to the desired format (YYYY-MM-DD)
-    const formattedDob = format(parseISO(dob), 'yyyy-MM-dd');
+      // Get file paths from Multer
+      const student_photo_url = req.files['student_profile_photo']
+        ? req.files['student_profile_photo'][0].path
+        : null;
+      const father_photo_url = req.files['father_profile_photo']
+        ? req.files['father_profile_photo'][0].path
+        : null;
+      const mother_photo_url = req.files['mother_profile_photo']
+        ? req.files['mother_profile_photo'][0].path
+        : null;
 
-    const query = `
+      // Format the `dob` to the desired format (YYYY-MM-DD)
+      const formattedDob = format(parseISO(dob), 'yyyy-MM-dd');
+
+      const query = `
             INSERT INTO "tempStudentDetails" (
                 student_full_name, dob, nationality, religion, caste,
                 address, city, postal_pin_number, student_contact_number, student_email,
@@ -80,52 +101,53 @@ export const tempAddStudentDetails = asyncHandler(async (req, res) => {
             )
         `;
 
-    const values = [
-      student_full_name,
-      formattedDob,
-      nationality,
-      religion,
-      caste,
-      address,
-      city,
-      postal_pin_number,
-      student_contact_number,
-      student_email,
-      student_qualification,
-      student_photo_url,
-      name_of_university,
-      name_of_collage,
-      course,
-      branch,
-      course_duration_years,
-      current_year,
-      current_sem,
-      father_name,
-      father_contact_number,
-      father_email,
-      father_photo_url,
-      mother_name,
-      mother_contact_number,
-      mother_photo_url,
-      approval_person_name,
-      approval_person_contact,
-      approval_person_relation,
-      approval_person_email,
-      relative_name,
-      relative_relation,
-      relative_contact_number,
-      relative_address,
-      name_of_sant,
-      sant_phone_number,
-      reference_relative_full_name,
-      reference_relative_relation,
-      reference_relative_mobile,
-    ];
+      const values = [
+        student_full_name,
+        formattedDob,
+        nationality,
+        religion,
+        caste,
+        address,
+        city,
+        postal_pin_number,
+        student_contact_number,
+        student_email,
+        student_qualification,
+        student_photo_url,
+        name_of_university,
+        name_of_collage,
+        course,
+        branch,
+        course_duration_years,
+        current_year,
+        current_sem,
+        father_name,
+        father_contact_number,
+        father_email,
+        father_photo_url,
+        mother_name,
+        mother_contact_number,
+        mother_photo_url,
+        approval_person_name,
+        approval_person_contact,
+        approval_person_relation,
+        approval_person_email,
+        relative_name,
+        relative_relation,
+        relative_contact_number,
+        relative_address,
+        name_of_sant,
+        sant_phone_number,
+        reference_relative_full_name,
+        reference_relative_relation,
+        reference_relative_mobile,
+      ];
 
-    await db.query(query, values);
+      await db.query(query, values);
 
-    res.status(201).json({
-      message: 'Student added into temporary table successfully',
+      res.status(201).json({
+        message: 'Student added into temporary table successfully',
+      });
     });
   } catch (error) {
     console.log({ message: 'Error adding student', err: `Error:-${error}` });

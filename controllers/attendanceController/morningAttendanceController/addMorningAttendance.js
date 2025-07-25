@@ -9,6 +9,8 @@ export const addMorningAttendance = asyncHandler(async (req, res) => {
   try {
     const { pin_number, date, status } = req.body;
 
+    // console.log(req.body);
+
     // Validate the inputs
     if (!pin_number || !date || !status) {
       return res.status(400).json({
